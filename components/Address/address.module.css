@@ -1,0 +1,12 @@
+.address {
+    color: #15121A;
+    padding: 5px 14px;
+    border: 1px solid #DFE0E9;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: 600;
+    line-height: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    background: #fff;
+}
