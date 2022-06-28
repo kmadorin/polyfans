@@ -5,6 +5,14 @@ export const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 export const IS_MAINNET = process.env.NEXT_PUBLIC_IS_MAINNET === 'true'
 
+// Messages
+export const ERROR_MESSAGE = 'Something went wrong!'
+export const CONNECT_WALLET = 'Please connect your wallet.'
+export const WRONG_NETWORK = IS_MAINNET
+	? 'Please change network to Polygon mainnet.'
+	: 'Please change network to Polygon Mumbai testnet.'
+export const SIGN_ERROR = 'Failed to sign data'
+
 // URLs
 export const API_URL = IS_MAINNET
 	? 'https://api.lens.dev'
@@ -13,6 +21,8 @@ export const POLYGONSCAN_URL = IS_MAINNET
 	? 'https://polygonscan.com'
 	: 'https://mumbai.polygonscan.com'
 
+//Misc
+export const RELAY_ON = false;
 
 // Web3
 export const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_KEY

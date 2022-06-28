@@ -1,0 +1,195 @@
+import { gql } from '@apollo/client';
+
+import { MinimalCollectModuleFields } from './CollectModuleFields'
+import { MetadataFields } from './MetadataFields'
+import { MinimalProfileFields } from './MinimalProfileFields'
+import { StatsFields } from './StatsFields'
+
+export const CommentFields = gql`
+  fragment CommentFields on Comment {
+    id
+    profile {
+      ...MinimalProfileFields
+    }
+    reaction(request: $reactionRequest)
+    collectedBy {
+      address
+      defaultProfile {
+        handle
+      }
+    }
+    collectModule {
+      ...MinimalCollectModuleFields
+    }
+    stats {
+      ...StatsFields
+    }
+    metadata {
+      ...MetadataFields
+    }
+    commentOn {
+      ... on Post {
+        pubId: id
+        profile {
+          ...MinimalProfileFields
+        }
+        reaction(request: $reactionRequest)
+        collectedBy {
+          address
+          defaultProfile {
+            handle
+          }
+        }
+        collectModule {
+          ...MinimalCollectModuleFields
+        }
+        stats {
+          ...StatsFields
+        }
+        metadata {
+          ...MetadataFields
+        }
+        hidden
+        createdAt
+      }
+      ... on Comment {
+        id
+        profile {
+          ...MinimalProfileFields
+        }
+        reaction(request: $reactionRequest)
+        collectedBy {
+          address
+          defaultProfile {
+            handle
+          }
+        }
+        collectModule {
+          ...MinimalCollectModuleFields
+        }
+        metadata {
+          ...MetadataFields
+        }
+        stats {
+          ...StatsFields
+        }
+        mainPost {
+          ... on Post {
+            id
+            profile {
+              ...MinimalProfileFields
+            }
+            reaction(request: $reactionRequest)
+            collectedBy {
+              address
+              defaultProfile {
+                handle
+              }
+            }
+            collectModule {
+              ...MinimalCollectModuleFields
+            }
+            stats {
+              ...StatsFields
+            }
+            metadata {
+              ...MetadataFields
+            }
+            hidden
+            createdAt
+          }
+          ... on Mirror {
+            id
+            profile {
+              ...MinimalProfileFields
+            }
+            reaction(request: $reactionRequest)
+            collectModule {
+              ...MinimalCollectModuleFields
+            }
+            stats {
+              ...StatsFields
+            }
+            metadata {
+              ...MetadataFields
+            }
+            mirrorOf {
+              ... on Post {
+                id
+                reaction(request: $reactionRequest)
+                profile {
+                  ...MinimalProfileFields
+                }
+                stats {
+                  ...StatsFields
+                }
+                hidden
+              }
+              ... on Comment {
+                id
+                reaction(request: $reactionRequest)
+                profile {
+                  ...MinimalProfileFields
+                }
+                reaction(request: $reactionRequest)
+                stats {
+                  ...StatsFields
+                }
+                hidden
+              }
+            }
+            createdAt
+          }
+        }
+        hidden
+        createdAt
+      }
+      ... on Mirror {
+        id
+        reaction(request: $reactionRequest)
+        profile {
+          ...MinimalProfileFields
+        }
+        metadata {
+          ...MetadataFields
+        }
+        mirrorOf {
+          ... on Post {
+            id
+            profile {
+              ...MinimalProfileFields
+            }
+            reaction(request: $reactionRequest)
+            stats {
+              ...StatsFields
+            }
+            hidden
+          }
+          ... on Comment {
+            id
+            profile {
+              ...MinimalProfileFields
+            }
+            reaction(request: $reactionRequest)
+            stats {
+              ...StatsFields
+            }
+            hidden
+          }
+        }
+        stats {
+          ...StatsFields
+        }
+        hidden
+        createdAt
+      }
+    }
+    hidden
+    createdAt
+    appId
+  }
+  ${MinimalProfileFields}
+  ${MinimalCollectModuleFields}
+  ${MetadataFields}
+  ${StatsFields}
+`

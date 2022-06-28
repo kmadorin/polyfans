@@ -1,0 +1,41 @@
+.content {
+	display: flex;
+	max-width: 680px;
+	align-items: stretch;
+	margin-top: -54px;
+}
+
+.details {
+	margin-left: 25px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.handle {
+	font-size: 32px !important;
+	line-height: 22px !important;
+	margin-bottom: 15px !important;
+}
+
+.about {
+	font-size: 14px;
+	line-height: 22px;
+	color: #ABADBA;
+}
+
+.followers {
+	margin-top: 11px;
+	padding-bottom: 6px;
+	display: flex;
+	align-items: center;
+}
+
+.count {
+	font-size: 14px;
+	line-height: 22px;
+	font-weight: 600;
+	color: #15121A;
+	margin-left: 8px;
+	display: inline-block;
+}

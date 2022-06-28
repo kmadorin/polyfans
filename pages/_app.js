@@ -1,8 +1,11 @@
+import "../styles/variables.less";
+import '../styles/antd-custom.css';
 import '../styles/globals.css';
 import '../styles/fonts.css';
-import SiteLayout from "../components/SiteLayout";
 
-import "../styles/variables.less";
+import { ApolloProvider } from '@apollo/client'
+import client from '../apollo';
+import SiteLayout from "../components/SiteLayout";
 
 import {
 	ALCHEMY_KEY,
@@ -55,9 +58,11 @@ const wagmiClient = createClient({
 function App({Component, pageProps}) {
 	return (
 		<WagmiConfig client={wagmiClient}>
-			<SiteLayout>
-				<Component {...pageProps} />
-			</SiteLayout>
+			<ApolloProvider client={client}>
+				<SiteLayout>
+					<Component {...pageProps} />
+				</SiteLayout>
+			</ApolloProvider>
 		</WagmiConfig>
 	)
 }

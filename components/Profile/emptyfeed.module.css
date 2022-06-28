@@ -1,0 +1,18 @@
+.feed {
+    flex-grow: 1;
+    text-align: center;
+    padding: 100px 30px;
+}
+
+.title {
+    text-align: center;
+    font-weight: 800 !important;
+    font-size: 24px !important;
+    line-height: 22px !important;
+    margin-bottom: 28px !important;
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 20px;
+}

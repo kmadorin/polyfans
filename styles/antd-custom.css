@@ -1,0 +1,12 @@
+/*.ant {*/
+/*	&-layout {*/
+/*		&-header {*/
+/*			background: transparent;*/
+/*			height: 72px;*/
+/*		}*/
+/*	}*/
+/*}*/
+
+.ant-layout-header {
+	background: red;
+}

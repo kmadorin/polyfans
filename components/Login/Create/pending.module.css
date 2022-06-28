@@ -1,0 +1,19 @@
+.block {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.spin {
+    margin-bottom: 15px;
+}
+
+.text {
+    text-align: center;
+    font-size: 16px;
+}
+
+.btn {
+    margin: 20px auto 0 auto;
+    display: block;
+}

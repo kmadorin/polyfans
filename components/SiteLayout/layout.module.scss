@@ -1,14 +1,27 @@
 .layout {
     background-color: #faf8f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
 }
 .header {
-    background: transparent;
     height: 72px;
+    background-color: #fffefe;
+}
+
+.headerHome {
+    background: transparent;
 }
 
 .logocol {
     display: flex;
     align-items: center;
+}
+
+.rightcol {
+    flex-grow: 1;
+    padding: 0 30px;
 }
 
 .row {
