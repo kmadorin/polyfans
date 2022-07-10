@@ -1,4 +1,4 @@
-import {Layout, Row, Col, Button,} from 'antd';
+import {Layout, Row, Col, Button, Space,} from 'antd';
 import clsx from 'clsx';
 import {useRouter} from "next/router";
 import {gql, useQuery} from '@apollo/client';
@@ -16,6 +16,7 @@ import Logo from '../Logo';
 import layoutStyles from './layout.module.scss';
 import consoleLog from '../../lib/consoleLog';
 import User from "./User";
+import Link from 'next/link';
 
 export const CURRENT_USER_QUERY = gql`
   query CurrentUser($ownedBy: [EthereumAddress!]) {
@@ -116,6 +117,10 @@ function SiteLayout({children}) {
 		Router.push('/');
 	}
 
+	function onNewPost(e) {
+
+	}
+
 	return (
 		<AppContext.Provider value={injectedGlobalContext}>
 			<Toaster position="bottom-right" toastOptions={toastOptions}/>
@@ -127,18 +132,23 @@ function SiteLayout({children}) {
 						</Col>
 						<Col className={layoutStyles.rightcol}>
 							<Row justify="space-between" align="middle">
+								{
+									currentUser && (
+										<Space>
+											<User user={currentUser}/>
+											<Button type="primary" onClick={onNewPost}>New Post</Button>
+										</Space>
+									)
+								}
 								<Col>
-									{
-										currentUser && <User user={currentUser}/>
-									}
 								</Col>
-								<Col>{mounted && accountAddress && (
+								<Col>{mounted && accountAddress ? (
 									<div>
 										<Address size="short" value={accountAddress}/>
 										<Button type="primary" onClick={onLogout} className={layoutStyles.logout}>Log
 											out</Button>
 									</div>
-								)}</Col>
+								) : <Link href='/'><Button type="primary">Log in</Button></Link>}</Col>
 							</Row>
 						</Col>
 					</Row>

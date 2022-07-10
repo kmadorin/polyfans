@@ -1,0 +1,48 @@
+.form {
+	padding: 0 40px;
+	display: flex;
+	align-items: center;
+	justify-content: stretch;
+	background: #fbfbfc;
+	height: 77px;
+	border-bottom: 1px solid #f2f3f6;
+	flex-wrap: wrap;
+}
+
+.avatar {
+	min-width: 32px;
+	height: auto;
+}
+
+.newCommentInput {
+	margin: 0 18px;
+	resize: none;
+	border: 0;
+	background: #fbfbfc;
+	flex-grow: 1;
+	width: auto;
+}
+
+.submitBtn {
+	min-width: 60px !important;
+	height: 40px !important;
+}
+
+.error {
+	color: red;
+	margin: 20px 0;
+	font-size: 14px;
+	padding: 15px;
+	border: 1px solid red;
+	display: block;
+	border-radius: 10px;
+}
+
+.status {
+	width: 100%;
+	text-align: center;
+}
+
+.onlyFollowers {
+	margin-left: 18px;
+}

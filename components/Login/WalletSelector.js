@@ -34,7 +34,7 @@ export const AUTHENTICATE_MUTATION = gql`
 
 function WalletSelector({ setHasProfile }) {
 	const {data: accountData} = useAccount();
-	const { setSelectedProfile, setHasConnected } = useContext(AppContext)
+	const { setSelectedProfile, currentUser} = useContext(AppContext)
 	const { signMessageAsync, isLoading: signLoading } = useSignMessage();
 	const [
 		loadChallenge,
@@ -95,7 +95,7 @@ function WalletSelector({ setHasProfile }) {
 								setHasProfile(false)
 							} else {
 								setSelectedProfile(0)
-								Router.push('/signup')
+								Router.push(`/u/${res.data.profiles.items[0].handle}`)
 							}
 						})
 					})

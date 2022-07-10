@@ -2,11 +2,11 @@ import {useRouter} from "next/router";
 import { gql, useQuery } from '@apollo/client';
 import Cover from './Cover';
 import Details from './Details';
-import Feed from './Feed';
-import EmptyFeed from "./EmptyFeed";
+import Feed from './Feed/';
 import Page404 from '../../pages/404';
 import Page500 from '../../pages/500';
 import consoleLog from "../../lib/consoleLog";
+import styles from './profile.module.scss';
 
 export const PROFILE_QUERY = gql`
   query Profile($request: ProfileQueryRequest!) {
@@ -79,8 +79,7 @@ export default function Profile() {
 		<div>
 			<Cover cover={profile?.coverPicture?.original?.url}/>
 			<Details profile={profile}/>
-			<EmptyFeed />
-			<Feed profile={profile}/>
+			<Feed profile={profile} className={styles.feed}/>
 		</div>
 	)
 }

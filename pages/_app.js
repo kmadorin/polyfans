@@ -1,5 +1,4 @@
 import "../styles/variables.less";
-import '../styles/antd-custom.css';
 import '../styles/globals.css';
 import '../styles/fonts.css';
 

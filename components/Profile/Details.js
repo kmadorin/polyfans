@@ -13,7 +13,7 @@ export default function Details({profile}) {
 	const {currentUser} = useContext(AppContext);
 	const [following, setFollowing] = useState(false);
 	const [followersCount, setFollowersCount] = useState(0);
-	const isOwner = currentUser && currentUser.id ? currentUser.id === profile.id : false;
+	const isOwner = currentUser && currentUser.id ? currentUser.id === profile?.id : false;
 
 	useEffect(() => {
 		if (profile?.stats?.totalFollowers) {

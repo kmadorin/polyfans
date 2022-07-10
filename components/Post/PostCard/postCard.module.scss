@@ -1,0 +1,145 @@
+.post {
+	width: 100%;
+	background: #FFFFFF;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	position: relative;
+	border-radius: 30px;
+}
+
+.wrapper {
+	display: flex;
+	justify-content: stretch;
+	align-items: stretch;
+	border-radius: 30px;
+	overflow: hidden;
+	box-shadow: 0 5px 10px rgba(28, 0, 46, 0.03), 0 10px 40px rgba(28, 0, 46, 0.03);
+	width: 100%;
+	cursor: pointer;
+}
+
+.wrapperLocked {
+	background: linear-gradient(to right, rgba(142, 79, 255, 1), rgba(255, 172, 47, 1));
+	padding: 2px;
+
+	.cover {
+		position: relative;
+		backdrop-filter: blur(5px);
+
+		&:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 0;
+			background: rgba(52, 43, 68, 0.9);
+		}
+
+		@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+			&:before {
+				background: rgba(52, 43, 68, 0.6);
+				backdrop-filter: blur(5px);
+			}
+		}
+	}
+
+	.content {
+		position: relative;
+
+	}
+}
+
+.lockScreen {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(255,255,255, .9);
+}
+
+.lockIcon {
+	position: absolute;
+	left: 50%;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	background: rgba(64, 52, 86, 0.9);
+	top: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	display: inline-flex;
+	text-align: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.cover {
+	background-size: cover;
+	background-position: center center;
+	padding-bottom: 56.25%;
+	width: 100%;
+}
+
+.content {
+	padding: 20px;
+}
+
+.contentWrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	overflow: hidden;
+	border-radius: 0 0 30px 30px;
+}
+
+.title {
+	font-size: 16px;
+	line-height: 23px;
+	margin-bottom: 12px;
+	font-weight: 600;
+	color: #15121A;
+}
+
+.text {
+	font-size: 13px;
+	line-height: 21px;
+	color: #000000;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 20px 20px 20px;
+	margin-top: auto;
+}
+
+.date {
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 22px;
+	color: #ABADBA;
+}
+
+.comments {
+	display: inline-block;
+	font-size: 12px;
+	line-height: 15px;
+	font-weight: 700;
+	color: #935CF6;
+}
+
+.commentsIcon {
+	display: inline-block;
+	margin-right: 8px;
+	vertical-align: middle;
+	width: 18px;
+	height: auto;
+}

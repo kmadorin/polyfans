@@ -71,7 +71,7 @@ export const CREATE_POST_TYPED_DATA_MUTATION = gql`
   }
 `
 
-export default function NewPost() {
+export default function Index() {
 	const [form] = Form.useForm();
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [onlyFollowers, setOnlyFollowers] = useState(false);
@@ -227,6 +227,7 @@ export default function NewPost() {
 				content: JSON.stringify({
 					title: trimify(title),
 					content: trimify(content),
+					followers_only: onlyFollowers
 				}),
 				createdAt: new Date(),
 				external_url: null,
@@ -279,7 +280,7 @@ export default function NewPost() {
 							name="title"
 						>
 							<Input
-								placeholder="Post Title" className={clsx(styles.input)} onChange={onTitleChanged}
+								placeholder="Post Title" className={styles.input} onChange={onTitleChanged}
 								value={title}
 							/>
 						</Form.Item>
