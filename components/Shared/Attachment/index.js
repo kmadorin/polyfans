@@ -5,7 +5,7 @@ import uploadAssetsToIPFS from "../../../lib/uploadAssetsToIPFS";
 import toast from "react-hot-toast";
 import {useState, useId} from "react";
 
-export default function Index({type, attachments, setAttachments}) {
+export default function Attachment({type, attachments, setAttachments}) {
 	const [loading, setLoading] = useState(false);
 	const id = useId();
 

@@ -7,6 +7,7 @@ import {v4 as uuidv4} from 'uuid';
 import toast from "react-hot-toast";
 import {useNetwork, useAccount, useSignTypedData, useContractWrite} from "wagmi";
 import AppContext from "../../utils/AppContext";
+import LitContext from "../../utils/LitContext";
 import styles from './newpost.module.scss';
 import {SendOutlined} from '@ant-design/icons';
 import {LensHubProxy} from '../../../abis/LensHubProxy';
@@ -35,6 +36,8 @@ import {
 	WRONG_NETWORK
 } from '../../../constants';
 import clsx from "clsx";
+import LitJsSdk from "lit-js-sdk";
+import uploadBlobToIPFS from "../../../lib/uploadBlobToIPFS";
 
 const {TextArea} = Input;
 
@@ -77,6 +80,7 @@ export default function Index() {
 	const [onlyFollowers, setOnlyFollowers] = useState(false);
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
+	const litClient = useContext(LitContext);
 
 	const [attachments, setAttachments] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -210,6 +214,89 @@ export default function Index() {
 		}
 	)
 
+	async function generatePostData() {
+		const postData = {
+			version: '1.0.0',
+			metadata_id: uuidv4(),
+			description: '',
+			content: '',
+			createdAt: new Date(),
+			external_url: null,
+			image: null,
+			imageMimeType: null,
+			name: `Post by @${currentUser?.handle}`,
+			attributes: [{
+				traitType: 'title',
+				key: 'title',
+				value: trimify(title)
+			},
+				{
+					traitType: 'followers_only',
+					key: 'followers_only',
+					value: onlyFollowers
+				}
+			],
+			media: attachments,
+			appId: 'Polyfans'
+		}
+
+		if (onlyFollowers) {
+			postData.description = 'This post is available for followers only'
+			postData.content = 'This post is available for followers only'
+
+			//encrypt post content
+			const authSig = JSON.parse(localStorage.getItem('signature'));
+
+			// followers only
+			const accessControlConditions = [
+				{
+					contractAddress: currentUser?.followNftAddress,
+					standardContractType: 'ERC721',
+					chain: 'mumbai',
+					method: 'balanceOf',
+					parameters: [
+						':userAddress',
+					],
+					returnValueTest: {
+						comparator: '>',
+						value: '0'
+					}
+				}
+			]
+
+			const {encryptedString, symmetricKey} = await LitJsSdk.encryptString(
+				trimify(content)
+			);
+
+			const encryptedSymmetricKey = await litClient.saveEncryptionKey({
+				accessControlConditions,
+				symmetricKey,
+				authSig,
+				chain: 'mumbai',
+			});
+
+			const {path: encryptedContentLink} = await uploadBlobToIPFS(encryptedString);
+
+			const encryptedPost = {
+				encryptedSymmetricKeyString: LitJsSdk.uint8arrayToString(encryptedSymmetricKey, "base16"),
+				encryptedContentLink,
+				accessControlConditions
+			}
+
+			postData.attributes.push({
+				traitType: 'encoded_post_data',
+				key: 'encoded_post_data',
+				value: JSON.stringify(encryptedPost)
+			});
+
+		} else {
+			postData.description = trimify(content);
+			postData.content = trimify(content)
+		}
+
+		return postData;
+	}
+
 	const createPost = async () => {
 		if (!account?.address) {
 			toast.error(CONNECT_WALLET)
@@ -220,30 +307,8 @@ export default function Index() {
 		} else {
 			setPostContentError('')
 			setIsUploading(true)
-			const {path} = await uploadToIPFS({
-				version: '1.0.0',
-				metadata_id: uuidv4(),
-				description: trimify(content),
-				content: JSON.stringify({
-					title: trimify(title),
-					content: trimify(content),
-					followers_only: onlyFollowers
-				}),
-				createdAt: new Date(),
-				external_url: null,
-				image: attachments.length > 0 ? attachments[0]?.item : null,
-				imageMimeType: attachments.length > 0 ? attachments[0]?.type : null,
-				name: `Post by @${currentUser?.handle}`,
-				attributes: [
-					{
-						traitType: 'string',
-						key: 'type',
-						value: 'post'
-					}
-				],
-				media: attachments,
-				appId: 'Polyfans'
-			}).finally(() => setIsUploading(false))
+			const postData = await generatePostData();
+			const {path} = await uploadToIPFS(postData).finally(() => setIsUploading(false))
 
 			await createPostTypedData({
 				variables: {

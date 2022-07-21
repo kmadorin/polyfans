@@ -54,7 +54,7 @@ const CREATE_FOLLOW_TYPED_DATA_MUTATION = gql`
   }
 `
 
-export default function Follow({profile, showText = false, setFollowing, followersCount, setFollowersCount}) {
+export default function Follow({profile, showText=false, setFollowing, followersCount, setFollowersCount}) {
 	const {currentUser} = useContext(AppContext);
 
 	const {activeChain} = useNetwork()
@@ -174,7 +174,7 @@ export default function Follow({profile, showText = false, setFollowing, followe
 			}
 			onClick={createFollow}
 			>
-			Follow
+			{showText && 'Follow'}
 		</Button>
 	)
 }

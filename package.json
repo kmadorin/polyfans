@@ -21,6 +21,7 @@
     "ipfs-http-client": "57.0.3",
     "js-cookie": "3.0.1",
     "jwt-decode": "3.1.2",
+    "lit-js-sdk": "1.1.198",
     "lodash.truncate": "4.4.2",
     "next": "12.1.6",
     "next-plugin-antd-less": "1.8.0",

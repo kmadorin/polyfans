@@ -8,10 +8,10 @@ import AppContext from "../utils/AppContext";
 import {useContext} from "react";
 import getAvatar from "../../lib/getAvatar";
 import Follow from "../Shared/Follow";
+import Unfollow from "../Shared/Unfollow";
 
-export default function Details({profile}) {
+export default function Details({profile, following, setFollowing}) {
 	const {currentUser} = useContext(AppContext);
-	const [following, setFollowing] = useState(false);
 	const [followersCount, setFollowersCount] = useState(0);
 	const isOwner = currentUser && currentUser.id ? currentUser.id === profile?.id : false;
 
@@ -34,7 +34,13 @@ export default function Details({profile}) {
 								followersCount={followersCount}
 								setFollowersCount={setFollowersCount}
 								showText
-							/>) : <Button type="default">Unfollow</Button>)}
+							/>) : <Unfollow
+								profile={profile}
+								setFollowing={setFollowing}
+								followersCount={followersCount}
+								setFollowersCount={setFollowersCount}
+								showText
+							/>)}
 						</div>
 						<div>
 							<Title level={2} className={styles.handle}>{profile?.name ?? profile?.handle}</Title>

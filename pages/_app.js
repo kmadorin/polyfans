@@ -2,16 +2,16 @@ import "../styles/variables.less";
 import '../styles/globals.css';
 import '../styles/fonts.css';
 
-import { ApolloProvider } from '@apollo/client'
+import {ApolloProvider} from '@apollo/client'
 import client from '../apollo';
 import SiteLayout from "../components/SiteLayout";
+import LitContext from "../components/utils/LitContext";
 
 import {
 	ALCHEMY_KEY,
 	ALCHEMY_RPC,
 	CHAIN_ID,
 	IS_MAINNET,
-	IS_PRODUCTION
 } from '../constants';
 
 import {chain, configureChains, createClient, WagmiConfig} from 'wagmi';
@@ -19,6 +19,7 @@ import {CoinbaseWalletConnector} from 'wagmi/connectors/coinbaseWallet'
 import {InjectedConnector} from 'wagmi/connectors/injected'
 import {WalletConnectConnector} from 'wagmi/connectors/walletConnect'
 import {alchemyProvider} from 'wagmi/providers/alchemy'
+import LitJsSdk from "lit-js-sdk";
 
 const {chains, provider} = configureChains(
 	[IS_MAINNET ? chain.polygon : chain.polygonMumbai, chain.mainnet],
@@ -53,14 +54,18 @@ const wagmiClient = createClient({
 	provider
 })
 
+const litClient = new LitJsSdk.LitNodeClient();
+litClient.connect();
 
 function App({Component, pageProps}) {
 	return (
 		<WagmiConfig client={wagmiClient}>
 			<ApolloProvider client={client}>
-				<SiteLayout>
-					<Component {...pageProps} />
-				</SiteLayout>
+				<LitContext.Provider value={litClient}>
+					<SiteLayout litClient={litClient}>
+						<Component {...pageProps} />
+					</SiteLayout>
+				</LitContext.Provider>
 			</ApolloProvider>
 		</WagmiConfig>
 	)

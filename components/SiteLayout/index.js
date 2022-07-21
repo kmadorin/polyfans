@@ -9,13 +9,16 @@ import {Toaster} from 'react-hot-toast';
 import {useAccount, useConnect, useDisconnect} from 'wagmi';
 import {MinimalProfileFields} from '../../graphql/MinimalProfileFields';
 
-const {Header, Content} = Layout;
+const {Header, Content, Footer} = Layout;
 import AppContext from '../utils/AppContext';
 import Address from '../Address';
 import Logo from '../Logo';
 import layoutStyles from './layout.module.scss';
 import consoleLog from '../../lib/consoleLog';
 import User from "./User";
+import NewPost from '../Post/NewPost';
+import LitBtn from '../LitBtn';
+
 import Link from 'next/link';
 
 export const CURRENT_USER_QUERY = gql`
@@ -70,6 +73,7 @@ function SiteLayout({children}) {
 
 		activeConnector?.on('change', () => {
 			localStorage.removeItem('selectedProfile')
+			localStorage.removeItem('signature')
 			Cookies.remove('accessToken')
 			Cookies.remove('refreshToken')
 			disconnect()
@@ -111,14 +115,11 @@ function SiteLayout({children}) {
 
 	const onLogout = () => {
 		localStorage.removeItem('selectedProfile')
+		localStorage.removeItem('signature')
 		Cookies.remove('accessToken')
 		Cookies.remove('refreshToken')
 		disconnect()
 		Router.push('/');
-	}
-
-	function onNewPost(e) {
-
 	}
 
 	return (
@@ -134,9 +135,9 @@ function SiteLayout({children}) {
 							<Row justify="space-between" align="middle">
 								{
 									currentUser && (
-										<Space>
+										<Space size={16}>
 											<User user={currentUser}/>
-											<Button type="primary" onClick={onNewPost}>New Post</Button>
+											<NewPost />
 										</Space>
 									)
 								}
@@ -156,6 +157,9 @@ function SiteLayout({children}) {
 				<Content>
 					{children}
 				</Content>
+				<Footer>
+					<LitBtn/>
+				</Footer>
 				{/*<Footer>Footer</Footer>*/}
 			</Layout>
 		</AppContext.Provider>

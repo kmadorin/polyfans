@@ -4,32 +4,46 @@ const {Title} = Typography;
 
 import styles from './postCard.module.scss';
 import dayjs from 'dayjs';
+import {useEffect, useState, useContext} from "react";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {CommentsIcon, LockIcon} from "../../Shared/Icons";
 import truncate from '../../../lib/truncate';
 import clsx from "clsx";
-import {parsePostContent} from "../postUtils";
+import {parsePostContent, decryptContent} from "../postUtils";
+import LitContext from "../../utils/LitContext";
 
 dayjs.extend(relativeTime);
 
-export default function PostCard({post, setPostOpened}) {
+export default function PostCard({post, following, setPostOpened}) {
+	const litClient = useContext(LitContext);
+	const [decryptedContent, setDecryptedContent] = useState('');
+	const {coverImgURL, title, content, followers_only, encryptedContent} = parsePostContent(post);
 
-	const {coverImgURL, title, content, followers_only} = parsePostContent(post);
+	const isHidden = followers_only && !following;
+	console.log(`###: content`, truncate(content));
+	useEffect(() => {
+		if (!isHidden) {
+			const authSig = JSON.parse(localStorage.getItem('signature'));
+			decryptContent(encryptedContent, litClient,authSig).then(res => {
+				setDecryptedContent(res);
+			})
+		}
+	})
 
 	function onPostClick(e) {
-		if (!followers_only) {
+		if (!followers_only || following) {
 			setPostOpened(post);
 		}
 	}
 
 	return (
-		<div className={clsx(styles.wrapper, followers_only && styles.wrapperLocked)} onClick={onPostClick}>
+		<div className={clsx(styles.wrapper, isHidden && styles.wrapperLocked)} onClick={onPostClick}>
 			<article className={styles.post}>
 				<div
 					className={styles.cover}
 					style={{backgroundImage: `${coverImgURL ? ('url(' + coverImgURL + ')') : 'none'}`}}
 				>
-					{followers_only ? (<div className={styles.lockIcon}>
+					{isHidden ? (<div className={styles.lockIcon}>
 						<LockIcon/>
 					</div>) : ''}
 				</div>
@@ -37,7 +51,7 @@ export default function PostCard({post, setPostOpened}) {
 					<div className={styles.content}>
 						<Title level={3} className={styles.title}>{title}</Title>
 						<Typography>
-							<p className={styles.text}>{truncate(content)}</p>
+							<p className={styles.text}>{(followers_only && !isHidden && decryptedContent) ? decryptedContent : truncate(content)}</p>
 						</Typography>
 					</div>
 					<div className={styles.footer}>
@@ -48,7 +62,7 @@ export default function PostCard({post, setPostOpened}) {
 						<CommentsIcon className={styles.commentsIcon}/>{post?.stats?.totalAmountOfComments}
 					</span>
 					</div>
-					{followers_only && (<div className={styles.lockScreen}>
+					{isHidden && (<div className={styles.lockScreen}>
 						<Button type="primary" >Follow to view</Button>
 					</div>)}
 				</div>

@@ -4,7 +4,7 @@ import {CommentFields} from '../../../graphql/CommentFields';
 import {MirrorFields} from '../../../graphql/MirrorFields';
 import {PostFields} from '../../../graphql/PostFields';
 import consoleLog from "../../../lib/consoleLog";
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import AppContext from "../../utils/AppContext";
 import PostCard from "../../Post/PostCard";
 import styles from './feed.module.scss';
@@ -39,7 +39,7 @@ const PROFILE_FEED_QUERY = gql`
   ${MirrorFields}
 `
 
-export default function Feed({profile, ...props}) {
+export default function Feed({profile, following, setFollowing, ...props}) {
 	const [publications, setPublications] = useState([]);
 	const {currentUser} = useContext(AppContext);
 	const [isPostModalVisible, setIsPostModalVisible] = useState(false);
@@ -55,8 +55,8 @@ export default function Feed({profile, ...props}) {
 		skip: !profile?.id,
 		fetchPolicy: 'no-cache',
 		onCompleted(data) {
+			console.log(`###: publications`, data?.publications?.items);
 			setPublications(data?.publications?.items.filter(post => post.appId === 'polyfans'))
-			console.log(`###: publications`, data?.publications?.items)
 			consoleLog(
 				'Query',
 				'#8b5cf6',
@@ -75,14 +75,14 @@ export default function Feed({profile, ...props}) {
 			{data?.publications?.items?.length === 0 && (
 				<EmptyFeed currentUser={currentUser}/>
 			)}
-			<EmptyFeed/>
 			{!error && !loading && data?.publications?.items?.length !== 0 && (
 				<Row justify="center">
 					<Col span={16}>
 						<Row gutter={[28, 28]} align="stretch">
+
 							{publications.map((post, idx) => (
 								<Col span={8} key={`${post?.id}_${idx}`} className={styles.postCol}>
-									<PostCard post={post} setPostOpened={setPostOpened}/>
+									<PostCard post={post} following={following} setPostOpened={setPostOpened}/>
 								</Col>
 							))}
 							<PostModal post={openedPost} isPostModalVisible={isPostModalVisible} setIsPostModalVisible={setIsPostModalVisible} />

@@ -43,7 +43,6 @@ export default function Comments({post}) {
 		fetchPolicy: 'no-cache',
 		onCompleted(data) {
 			setComments(data?.publications?.items)
-			console.log(`###: comments`, comments);
 			consoleLog(
 				'Query',
 				'#8b5cf6',

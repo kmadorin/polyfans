@@ -72,6 +72,12 @@ function WalletSelector({ setHasProfile }) {
 		}).then((res) => {
 			signMessageAsync({ message: res?.data?.challenge?.text }).then(
 				(signature) => {
+					localStorage.setItem('signature', JSON.stringify({
+						sig: signature,
+						address: accountData?.address,
+						derivedVia: 'web3.eth.personal.sign',
+						signedMessage: res?.data?.challenge?.text
+					}))
 					authenticate({
 						variables: {
 							request: { address: accountData?.address, signature }
