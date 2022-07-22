@@ -3,6 +3,23 @@ const withAntdLess = require('next-plugin-antd-less');
 
 module.exports = {
 	experimental: {images: {layoutRaw: true}},
+	exportPathMap: async function (
+		defaultPathMap,
+		{dev, dir, outDir, distDir, buildId}
+	) {
+		return {
+			'/': {page: '/'},
+			'/404': {page: '/404'},
+			'/500': {page: '/500'},
+			'/u/kmadorin': {page: '/u', query: {username: 'kmadorin'}},
+			'/u/kmadorin1': {page: '/u', query: {username: 'kmadorin1'}},
+		}
+	},
+	images: {
+		loader: "akamai",
+		path: "",
+	},
+	trailingSlash: true,
 	...withAntdLess({
 		// optional: you can modify antd less variables directly here
 		// modifyVars: { '@primary-color': '#04f' },
@@ -20,18 +37,5 @@ module.exports = {
 		},
 
 		localIdentName: '[hash:2]',
-
-		exportPathMap: async function (
-			defaultPathMap,
-			{dev, dir, outDir, distDir, buildId}
-		) {
-			return {
-				'/': {page: '/'},
-				'/404': {page: '/404'},
-				'/500': {page: '/500'},
-				'/u/kmadorin': {page: '/u', query: {username: 'kmadorin'}},
-				'/u/kmadorin1': {page: '/u', query: {username: 'kmadorin1'}},
-			}
-		},
 	})
 };
