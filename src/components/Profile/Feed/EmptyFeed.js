@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const {Title} = Typography;
 import styles from './emptyfeed.module.css';
-import NewPost from '../../Post/NewPost/';
+import NewPost from '../../Post/NewPost';
 import {useRouter} from "next/router";
 
 export default function EmptyFeed({currentUser}) {

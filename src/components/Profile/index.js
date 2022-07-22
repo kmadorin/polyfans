@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import {Spin} from 'antd';
 import Cover from './Cover';
 import Details from './Details';
-import Feed from './Feed/';
+import Feed from './Feed';
 import Page404 from '../../pages/404';
 import Page500 from '../../pages/500';
 import consoleLog from "../../lib/consoleLog";
