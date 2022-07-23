@@ -7,7 +7,7 @@ export default function Cover({cover}) {
 	return (
 		<div className={coverStyles.cover}>
 			<Image
-				src={cover ? cover : `${PUBLIC_URL}/images/default_cover.jpg`} alt='cover' layout="fill"
+				src={cover ? cover : `${PUBLIC_URL}/images/default_cover.png`} alt='cover' layout="fill"
 				objectFit="cover"
 				objectPosition='50%'
 			/>
