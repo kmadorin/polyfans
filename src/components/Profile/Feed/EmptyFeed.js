@@ -22,7 +22,7 @@ export default function EmptyFeed({currentUser}) {
 					<Title level={3} className={styles.title}>{text}</Title>
 					{isOwner && <NewPost className={styles.btn} />}
 				</div>
-				<Image src={`${PUBLIC_URL}/images/empty_feed.png`} width={412} height={340} alt="empty feed image"/>
+				{/*<Image src={`${PUBLIC_URL}/images/empty_feed.png`} width={412} height={340} alt="empty feed image"/>*/}
 			</Col>
 		</Row>
 	)

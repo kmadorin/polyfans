@@ -10,7 +10,7 @@ export function parsePostContent(post) {
 	const coverImgURL = coverImg ? getIPFSLink(coverImg) : null;
 	const content = post?.metadata?.content;
 
-	let encryptedContent = followers_only ? post?.metadata?.attributes.find(attr => attr.traitType === 'encoded_post_data').value : '';
+	let encryptedContent = followers_only ? post?.metadata?.attributes.find(attr => attr.traitType === 'encoded_post_data')?.value : '';
 
 	return {
 		coverImgURL,
