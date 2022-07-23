@@ -14,6 +14,7 @@ import { CURRENT_USER_QUERY } from '../SiteLayout';
 import {COOKIE_CONFIG} from "../../apollo";
 import SwitchNetwork from "../Shared/SwitchNetwork";
 import consoleLog from "../../lib/consoleLog";
+import {PUBLIC_URL} from "../../constants";
 
 const CHALLENGE_QUERY = gql`
   query Challenge($request: ChallengeRequest!) {
@@ -131,7 +132,7 @@ function WalletSelector({ setHasProfile }) {
 						!authLoading &&
 						!profilesLoading && <Image
 							priority
-							src="/images/lens.png"
+							src={`${PUBLIC_URL}/images/lens.png`}
 							height={20}
 							width={20}
 							alt="Lens logo"

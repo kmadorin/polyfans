@@ -1,4 +1,3 @@
-import {useRouter} from "next/router";
 import { gql, useQuery } from '@apollo/client';
 import {Spin} from 'antd';
 import Cover from './Cover';
@@ -58,11 +57,7 @@ export const PROFILE_QUERY = gql`
   }
 `
 
-export default function Profile() {
-	const {
-		query: { username }
-	} = useRouter()
-
+export default function Profile({username, ...props}) {
 	const [profile, setProfile] = useState(null);
 	const [following, setFollowing] = useState(false);
 
@@ -73,6 +68,7 @@ export default function Profile() {
 		skip: !username,
 		onCompleted(data) {
 			setProfile(data?.profile);
+			console.log(`###: data?.profile`, data?.profile);
 			setFollowing(data?.profile?.isFollowedByMe);
 			consoleLog(
 				'Query',

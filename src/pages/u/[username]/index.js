@@ -7,6 +7,6 @@ export default function ViewProfile() {
 	} = useRouter()
 
 	return (
-		<Profile />
+		<Profile username={username} />
 	)
 }

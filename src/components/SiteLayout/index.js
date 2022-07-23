@@ -17,7 +17,7 @@ import layoutStyles from './layout.module.scss';
 import consoleLog from '../../lib/consoleLog';
 import User from "./User";
 import NewPost from '../Post/NewPost';
-import LitBtn from '../LitBtn';
+// import LitBtn from '../LitBtn';
 
 import Link from 'next/link';
 
@@ -157,9 +157,9 @@ function SiteLayout({children}) {
 				<Content>
 					{children}
 				</Content>
-				<Footer>
-					<LitBtn/>
-				</Footer>
+				{/*<Footer>*/}
+				{/*	<LitBtn/>*/}
+				{/*</Footer>*/}
 				{/*<Footer>Footer</Footer>*/}
 			</Layout>
 		</AppContext.Provider>

@@ -1,10 +1,12 @@
+import {PUBLIC_URL} from "../constants";
+
 export default function getWalletLogo(name) {
 	switch (name) {
 		case 'WalletConnect':
-			return '/images/wallets/walletconnect.svg'
+			return `${PUBLIC_URL}/images/wallets/walletconnect.svg`
 		case 'Coinbase Wallet':
-			return '/images/wallets/coinbase.svg'
+			return `${PUBLIC_URL}/images/wallets/coinbase.svg`
 		default:
-			return '/images/wallets/browser-wallet.svg'
+			return `${PUBLIC_URL}/images/wallets/browser-wallet.svg`
 	}
 }

@@ -8,6 +8,7 @@ export const MinimalProfileFields = gql`
     bio
     ownedBy
     followNftAddress
+    metadata
     attributes {
       key
       value

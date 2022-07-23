@@ -24,6 +24,8 @@ export const POLYGONSCAN_URL = IS_MAINNET
 //Misc
 export const RELAY_ON = false;
 
+export const PUBLIC_URL = process.env.NODE_ENV==='production' ? process.env.NEXT_PUBLIC_URL : process.env.NEXT_PUBLIC_URL_DEV
+
 // Web3
 export const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_KEY
 export const ALCHEMY_RPC = IS_MAINNET
