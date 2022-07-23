@@ -32,7 +32,7 @@ export default function PostCard({post, following, setPostOpened}) {
 
 	function onPostClick(e) {
 		if (!followers_only || following) {
-			setPostOpened(post);
+			setPostOpened({...post, metadata: {...post.metadata, content: decryptedContent}});
 		}
 	}
 

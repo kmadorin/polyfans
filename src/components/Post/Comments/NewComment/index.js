@@ -73,7 +73,7 @@ const CREATE_COMMENT_TYPED_DATA_MUTATION = gql`
 `
 
 export default function NewComment({currentUser, post}) {
-	const isFollowing = false;
+	const isFollowing = true;
 	const [newComment, setNewComment] = useState('');
 	const [commentContentError, setCommentContentError] = useState('');
 	const [isUploading, setIsUploading] = useState(false);
