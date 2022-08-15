@@ -19,7 +19,7 @@ module.exports = {
 		loader: "akamai",
 		path: "",
 	},
-	trailingSlash: true,
+	trailingSlash: false,
 	...withAntdLess({
 		// optional: you can modify antd less variables directly here
 		// modifyVars: { '@primary-color': '#04f' },

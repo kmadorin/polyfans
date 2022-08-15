@@ -10,6 +10,7 @@ import PostCard from "../../Post/PostCard";
 import styles from './feed.module.scss';
 import EmptyFeed from "./EmptyFeed";
 import PostModal from "../../Post/PostModal";
+import {APP_NAME} from "../../../constants";
 
 const PROFILE_FEED_QUERY = gql`
   query ProfileFeed(
@@ -56,7 +57,7 @@ export default function Feed({profile, following, setFollowing, ...props}) {
 		fetchPolicy: 'no-cache',
 		onCompleted(data) {
 			console.log(`###: publications`, data?.publications?.items);
-			setPublications(data?.publications?.items.filter(post => post.appId === 'polyfans'))
+			setPublications(data?.publications?.items.filter(post => post.appId === APP_NAME))
 			consoleLog(
 				'Query',
 				'#8b5cf6',

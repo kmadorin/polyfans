@@ -9,6 +9,7 @@ import uploadAssetsToIPFS from "../../../lib/uploadAssetsToIPFS";
 import SwitchNetwork from "../../Shared/SwitchNetwork";
 import {CHAIN_ID} from '../../../constants';
 import Pending from './Pending';
+import ImageUpload from "../../Shared/ImageUpload";
 
 const CREATE_PROFILE_MUTATION = gql`
   mutation CreateProfile($request: CreateProfileRequest!) {
@@ -27,26 +28,12 @@ const CREATE_PROFILE_MUTATION = gql`
 export default function Create() {
 	const [form] = Form.useForm();
 	const [avatar, setAvatar] = useState('');
-	const [uploading, setUploading] = useState(false);
 	const {data: account} = useAccount();
 	const {activeChain} = useNetwork();
 
 	const [createProfile, {data, loading}] = useMutation(
 		CREATE_PROFILE_MUTATION
 	)
-
-	const handleUpload = async (e) => {
-		e.preventDefault()
-		setUploading(true)
-		try {
-			const attachment = await uploadAssetsToIPFS(e.target.files)
-			if (attachment[0]?.item) {
-				setAvatar(attachment[0].item)
-			}
-		} finally {
-			setUploading(false)
-		}
-	}
 
 	const onFinish = (values) => {
 		const {handle} = values;
@@ -62,21 +49,6 @@ export default function Create() {
 			}
 		})
 	};
-
-	const AvatarUploadLabel = () => (<div className={createStyles.labelWrapper}>
-		<Text className={createStyles.label}>Profile Photo</Text>
-		<label htmlFor='avatar'>
-			<input
-				name="avatar"
-				id="avatar"
-				type="file"
-				accept="image/*"
-				style={{display: "none"}}
-				onChange={handleUpload}
-			/>
-			<Text className={createStyles.upload}>Upload</Text>
-		</label>
-	</div>);
 
 	return data?.createProfile?.txHash ? (
 		<Pending
@@ -98,12 +70,8 @@ export default function Create() {
 			>
 				<Input placeholder="vitalik"/>
 			</Form.Item>
-			<Form.Item
-				rules={[{required: true, message: 'Please input your username!'}]}
-			>
-				<AvatarUploadLabel/>
-				{uploading ? <Spin size="large" className={createStyles.spin}/> :
-					<Avatar src={avatar} size={60} className={createStyles.avatar}/>}
+			<Form.Item>
+				<ImageUpload name='avatar' image={avatar} setImage={setAvatar} label='Profile Photo' isAvatar />
 			</Form.Item>
 			<Form.Item>
 				{activeChain?.id !== CHAIN_ID ? (

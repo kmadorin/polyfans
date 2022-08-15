@@ -17,6 +17,7 @@ import omit from '../../../../lib/omit';
 import uploadToIPFS from '../../../../lib/uploadToIPFS';
 import trimify from "../../../../lib/trimify";
 import splitSignature from "../../../../lib/splitSignature";
+import PubIndexStatus from "../../../Shared/PubIndexStatus";
 import {
 	defaultModuleData,
 	getModule
@@ -29,8 +30,8 @@ import {
 	ERROR_MESSAGE,
 	LENSHUB_PROXY,
 	RELAY_ON,
+	APP_NAME
 } from '../../../../constants';
-import PubIndexStatus from "../../../Shared/PubIndexStatus";
 import SwitchNetwork from "../../../Shared/SwitchNetwork";
 
 const CREATE_COMMENT_TYPED_DATA_MUTATION = gql`
@@ -215,7 +216,7 @@ export default function NewComment({currentUser, post}) {
 			],
 			media: [],
 			createdOn: new Date(),
-			appId: 'Polyfans'
+			appId: APP_NAME
 		}).finally(() => setIsUploading(false))
 
 		await createCommentTypedData({
@@ -231,14 +232,12 @@ export default function NewComment({currentUser, post}) {
 		})
 	}
 
-	return <Form requiredMark={false} onFinish={createComment}>
-		<div className={styles.form}>
+	return (<Form requiredMark={false} onFinish={createComment} className={styles.form}>
 			{currentUser && <Avatar size={32} src={getAvatar(currentUser)} alt={currentUser?.handle} className={styles.avatar}/>}
 			<div>
 				{commentContentError && <Text className={styles.error}>{commentContentError}</Text>}
 			</div>
-			{currentUser ? (isFollowing ? (
-			<>
+			{currentUser ? (isFollowing ? (<>
 				<TextArea
 					required
 					rows={1}
@@ -282,7 +281,7 @@ export default function NewComment({currentUser, post}) {
 										? 'Send'
 										: ''}
 					</Button>)}
-			</>) : (<div className={styles.onlyFollowers}>Only followers can comment</div>)): (<div> You must be logged in to comment</div>)}
+			</>) : (<div className={styles.onlyFollowers}>Only followers can comment</div>)) : (<div> You must be logged in to comment</div>)}
 			{/*{data?.hash ?? broadcastData?.broadcast?.txHash ? (*/}
 			{/*	<div className={styles.status}>*/}
 			{/*		<PubIndexStatus*/}
@@ -292,7 +291,5 @@ export default function NewComment({currentUser, post}) {
 			{/*			}*/}
 			{/*		/>*/}
 			{/*	</div>) : null}*/}
-		</div>
-
-	< /Form>
+	< /Form>)
 }

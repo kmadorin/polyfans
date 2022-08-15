@@ -1,5 +1,5 @@
 const getIPFSLink = (hash) => {
-	const infuraIPFS = 'https://ipfs.infura.io/ipfs/'
+	const infuraIPFS = 'https://polyfans.infura-ipfs.io/ipfs/'
 
 	return hash
 		.replace(/^Qm[1-9A-Za-z]{44}/gm, `${infuraIPFS}${hash}`)

@@ -6,10 +6,15 @@ import {ApolloProvider} from '@apollo/client'
 import client from '../apollo';
 import SiteLayout from "../components/SiteLayout";
 import LitContext from "../components/utils/LitContext";
+// import FluenceContext from "../components/utils/FluenceContext";
+// import {Fluence} from '@fluencelabs/fluence';
+// import { testNet } from "@fluencelabs/fluence-network-environment";
+
 
 import {
 	ALCHEMY_KEY,
 	ALCHEMY_RPC,
+	APP_NAME,
 	CHAIN_ID,
 	IS_MAINNET,
 } from '../constants';
@@ -41,7 +46,7 @@ const connectors = () => {
 		new CoinbaseWalletConnector({
 			chains,
 			options: {
-				appName: 'Polyfans',
+				appName: APP_NAME,
 				jsonRpcUrl: ALCHEMY_RPC
 			}
 		})
@@ -57,14 +62,22 @@ const wagmiClient = createClient({
 const litClient = new LitJsSdk.LitNodeClient();
 litClient.connect();
 
+// Fluence.start({ connectTo: testNet[1].multiaddr }).then(res => {
+// 	console.log(`###: res`, res);
+// 	console.log(`###: Fluence.getStatus()`, Fluence.getStatus());
+// }).catch(e => console.log(`###: e`, e));
+
+
 function App({Component, pageProps}) {
 	return (
 		<WagmiConfig client={wagmiClient}>
 			<ApolloProvider client={client}>
 				<LitContext.Provider value={litClient}>
-					<SiteLayout litClient={litClient}>
-						<Component {...pageProps} />
-					</SiteLayout>
+					{/*<FluenceContext.Provider value={Fluence}>*/}
+						<SiteLayout litClient={litClient}>
+							<Component {...pageProps} />
+						</SiteLayout>
+					{/*</FluenceContext.Provider>*/}
 				</LitContext.Provider>
 			</ApolloProvider>
 		</WagmiConfig>

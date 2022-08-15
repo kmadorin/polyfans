@@ -44,8 +44,7 @@ export default function Details({profile, following, setFollowing}) {
 						</div>
 						<div>
 							<Title level={2} className={styles.handle}>{profile?.name ?? profile?.handle}</Title>
-							<Text className={styles.about}>Life is like riding a bicycle. To keep your balance, you must
-								keep moving</Text>
+							<Text className={styles.about}>{profile?.bio}</Text>
 							<div className={styles.followers}>
 								<FollowIcon/><span className={styles.count}>{followersCount}</span>
 							</div>

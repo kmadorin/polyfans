@@ -5,8 +5,15 @@ export const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 export const IS_MAINNET = process.env.NEXT_PUBLIC_IS_MAINNET === 'true'
 
+export const APP_NAME = 'Polyfans';
+
 // Messages
 export const ERROR_MESSAGE = 'Something went wrong!'
+export const ERRORS = {
+	notMined:
+		'A previous transaction may not been mined yet or you have passed in a invalid nonce. You must wait for that to be mined before doing another action, please try again in a few moments. Nonce out of sync.'
+}
+
 export const CONNECT_WALLET = 'Please connect your wallet.'
 export const WRONG_NETWORK = IS_MAINNET
 	? 'Please change network to Polygon mainnet.'
@@ -23,9 +30,11 @@ export const POLYGONSCAN_URL = IS_MAINNET
 
 //Misc
 export const RELAY_ON = false;
-
 export const PUBLIC_URL = process.env.NODE_ENV==='production' ? process.env.NEXT_PUBLIC_URL : process.env.NEXT_PUBLIC_URL_DEV
 
+//IPFS Gateway
+export const INFURA_IPFS_PROJECT_ID = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID;
+export const INFURA_IPFS_API_SECRET_KEY = process.env.NEXT_PUBLIC_INFURA_IPFS_API_SECRET_KEY;
 // Web3
 export const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_KEY
 export const ALCHEMY_RPC = IS_MAINNET
@@ -42,6 +51,7 @@ export const POLYGON_MUMBAI = {
 	rpcUrls: { default: 'https://rpc-mumbai.maticvigil.com' }
 }
 export const CHAIN_ID = IS_MAINNET ? POLYGON_MAINNET.id : POLYGON_MUMBAI.id
+
 
 // Addresses
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'

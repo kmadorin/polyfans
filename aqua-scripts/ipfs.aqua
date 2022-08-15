@@ -1,0 +1,3 @@
+module Exports
+import put from "@fluencelabs/aqua-ipfs/ipfs-api.aqua"
+export put

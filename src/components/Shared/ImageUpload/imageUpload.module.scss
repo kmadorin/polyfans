@@ -1,0 +1,33 @@
+.label {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.labelWrapper {
+	margin-bottom: 10px;
+}
+
+.upload {
+	color: #935CF6;
+	font-weight: 600;
+	display: inline-block;
+	margin-left: 20px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.avatar {
+	background-color: #F4F5FA;
+}
+
+.spin {
+	width: 60px;
+	height: 60px;
+}
+
+.preview {
+	background: #F4F5FA center center;
+	background-size: cover;
+	padding-top: calc(84 /655  * 100%);
+	border-radius: 4px;
+}

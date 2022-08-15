@@ -17,7 +17,6 @@ import layoutStyles from './layout.module.scss';
 import consoleLog from '../../lib/consoleLog';
 import User from "./User";
 import NewPost from '../Post/NewPost';
-// import LitBtn from '../LitBtn';
 
 import Link from 'next/link';
 
@@ -42,7 +41,7 @@ function SiteLayout({children}) {
 	const {activeConnector} = useConnect();
 	const accountAddress = accountData && accountData.address;
 	const router = useRouter();
-	const isHome = router.pathname === '/';
+	const hasTransparentHeader = router.pathname === '/' || router.pathname === '/settings';
 	const {data, loading, error} = useQuery(CURRENT_USER_QUERY, {
 		variables: {ownedBy: accountData?.address},
 		skip: !selectedProfile || !refreshToken,
@@ -126,7 +125,7 @@ function SiteLayout({children}) {
 		<AppContext.Provider value={injectedGlobalContext}>
 			<Toaster position="bottom-right" toastOptions={toastOptions}/>
 			<Layout style={{minHeight: '100vh'}} className={layoutStyles.layout}>
-				<Header className={clsx(layoutStyles.header, isHome && layoutStyles.headerHome)}>
+				<Header className={clsx(layoutStyles.header, hasTransparentHeader && layoutStyles.headerTransparent)}>
 					<Row justify="stretch" align="middle" className={layoutStyles.row}>
 						<Col className={layoutStyles.logocol}>
 							<Logo/>
