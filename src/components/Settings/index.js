@@ -17,6 +17,7 @@ import consoleLog from "../../lib/consoleLog";
 import omit from '../../lib/omit';
 import splitSignature from '../../lib/splitSignature';
 import {v4 as uuidv4} from 'uuid';
+import AvatarSettingsForm from "./AvatarSettingsForm";
 
 
 const CREATE_SET_PROFILE_METADATA_TYPED_DATA_MUTATION = gql`
@@ -52,12 +53,8 @@ const CREATE_SET_PROFILE_METADATA_TYPED_DATA_MUTATION = gql`
 
 export default function Settings({user}) {
 	const {currentUser} = useContext(AppContext);
-
-	console.log(`###: user`, user);
-
 	const [settingsForm] = Form.useForm();
 
-	const [avatar, setAvatar] = useState(user?.picture?.original?.url);
 	const [coverImage, setCoverImage] = useState(user?.coverPicture?.original?.url);
 
 	settingsForm.setFieldsValue({
@@ -162,9 +159,6 @@ export default function Settings({user}) {
 
 		const {path} = await uploadToIPFS({
 			name,
-			profilePictureUri: avatar
-				? avatar
-				: `https://avatar.tobi.sh/${account?.address}_${name}.png`,
 			bio,
 			cover_picture: coverImage ? coverImage : null,
 			attributes: [
@@ -241,9 +235,6 @@ export default function Settings({user}) {
 				<Form.Item>
 					<ImageUpload name='cover' image={coverImage} setImage={setCoverImage} label='Cover Photo'/>
 				</Form.Item>
-				<Form.Item>
-					<ImageUpload name='avatar' image={avatar} setImage={setAvatar} label='Profile Photo' isAvatar/>
-				</Form.Item>
 			</div>
 			<Divider className={styles.divider}/>
 			<div className={styles.section}>
@@ -273,5 +264,6 @@ export default function Settings({user}) {
 				</Form.Item>
 			</div>
 		</Form>
+		<AvatarSettingsForm className={styles.avatarForm} user={user}/>
 	</div>
 }
