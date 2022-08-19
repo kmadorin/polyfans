@@ -17,6 +17,7 @@
     "@fluencelabs/fluence-network-environment": "1.0.13",
     "@fluencelabs/marine-js": "0.3.6",
     "@heroicons/react": "^1.0.6",
+    "0xsequence": "0.40.5",
     "antd": "4.21.0",
     "clsx": "1.1.1",
     "dayjs": "^1.11.3",

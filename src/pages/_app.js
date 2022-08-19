@@ -9,6 +9,7 @@ import LitContext from "../components/utils/LitContext";
 // import FluenceContext from "../components/utils/FluenceContext";
 // import {Fluence} from '@fluencelabs/fluence';
 // import { testNet } from "@fluencelabs/fluence-network-environment";
+import {SequenceConnector} from "../components/utils/SequenceConnector";
 
 
 import {
@@ -19,7 +20,7 @@ import {
 	IS_MAINNET,
 } from '../constants';
 
-import {chain, configureChains, createClient, WagmiConfig} from 'wagmi';
+import {chain, configureChains, createClient, defaultChains, WagmiConfig} from 'wagmi';
 import {CoinbaseWalletConnector} from 'wagmi/connectors/coinbaseWallet'
 import {InjectedConnector} from 'wagmi/connectors/injected'
 import {WalletConnectConnector} from 'wagmi/connectors/walletConnect'
@@ -31,8 +32,16 @@ const {chains, provider} = configureChains(
 	[alchemyProvider({alchemyId: ALCHEMY_KEY})]
 )
 
+
 const connectors = () => {
 	return [
+		new SequenceConnector({
+			chains,
+			options: {
+				network: 'mumbai',
+				app: APP_NAME,
+			},
+		}),
 		new InjectedConnector({
 			chains,
 			options: {shimDisconnect: true}
@@ -52,6 +61,7 @@ const connectors = () => {
 		})
 	]
 }
+
 
 const wagmiClient = createClient({
 	autoConnect: true,
@@ -74,9 +84,9 @@ function App({Component, pageProps}) {
 			<ApolloProvider client={client}>
 				<LitContext.Provider value={litClient}>
 					{/*<FluenceContext.Provider value={Fluence}>*/}
-						<SiteLayout litClient={litClient}>
-							<Component {...pageProps} />
-						</SiteLayout>
+					<SiteLayout litClient={litClient}>
+						<Component {...pageProps} />
+					</SiteLayout>
 					{/*</FluenceContext.Provider>*/}
 				</LitContext.Provider>
 			</ApolloProvider>

@@ -56,8 +56,7 @@ export default function Feed({profile, following, setFollowing, ...props}) {
 		skip: !profile?.id,
 		fetchPolicy: 'no-cache',
 		onCompleted(data) {
-			console.log(`###: publications`, data?.publications?.items);
-			setPublications(data?.publications?.items.filter(post => post.appId === APP_NAME))
+			setPublications(data?.publications?.items.filter(post => post.appId === APP_NAME.toLowerCase()))
 			consoleLog(
 				'Query',
 				'#8b5cf6',

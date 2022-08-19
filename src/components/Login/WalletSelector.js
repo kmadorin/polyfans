@@ -33,10 +33,10 @@ export const AUTHENTICATE_MUTATION = gql`
   }
 `
 
-function WalletSelector({ setHasProfile }) {
-	const {data: accountData} = useAccount();
+function WalletSelector({ setHasProfile, setHasConnected }) {
+	const {data: accountData, connector: activeConnector} = useAccount();
 	const { setSelectedProfile, currentUser} = useContext(AppContext)
-	const { signMessageAsync, isLoading: signLoading } = useSignMessage();
+	const { signMessage, signMessageAsync, isLoading: signLoading } = useSignMessage();
 	const [
 		loadChallenge,
 		{ error: errorChallenge, loading: challengeLoading }
@@ -62,10 +62,37 @@ function WalletSelector({ setHasProfile }) {
 				)
 			}
 		});
-	const {connect, connectors, error, isConnecting, pendingConnector} =
+	const {connectors, error, connectAsync, isConnecting, pendingConnector} =
 		useConnect();
 
 	const {activeChain} = useNetwork();
+
+	const onConnect = async (connector) => {
+		try {
+			const accountData = await connectAsync({ connector })
+			if (accountData) {
+				if (connector.id === 'sequence') {
+					// console.log(`###: account`, accountData.account);
+					getProfiles({
+						variables: { ownedBy: accountData.account }
+					}).then((res) => {
+						setHasConnected(true)
+						localStorage.setItem('selectedProfile', '0')
+						if (res.data.profiles.items.length === 0) {
+							setHasProfile(false)
+						} else {
+							setSelectedProfile(0)
+							Router.push(`/u/${res.data.profiles.items[0].handle}`)
+						}
+					})
+				} else {
+					setHasConnected(true)
+				}
+			}
+		} catch (error) {
+			consoleLog('Sign Error', error)
+		}
+	}
 
 	const handleSign = () => {
 		loadChallenge({
@@ -150,9 +177,9 @@ function WalletSelector({ setHasProfile }) {
 	) : (<div className={walletSelectorStyles.wselector}>
 		{connectors.map((connector) => (
 			<Button
-				disabled={!connector.ready}
+				disabled={!connector.ready || connector.id === activeConnector?.id}
 				key={connector.id}
-				onClick={() => connect(connector)}
+				onClick={() => onConnect(connector)}
 				loading={isConnecting &&
 				connector.id === pendingConnector?.id}
 				className={walletSelectorStyles.wbtn}

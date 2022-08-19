@@ -20,7 +20,7 @@ export default function PostCard({post, following, setPostOpened}) {
 	const {coverImgURL, title, content, followers_only, encryptedContent} = parsePostContent(post);
 
 	const isHidden = followers_only && !following;
-	console.log(`###: content`, truncate(content));
+
 	useEffect(() => {
 		if (!isHidden) {
 			const authSig = JSON.parse(localStorage.getItem('signature'));

@@ -10,19 +10,20 @@ import {useAccount} from "wagmi";
 import Create from "./Create";
 
 export default function Login() {
-	const {data: accountData} = useAccount();
+	const [hasConnected, setHasConnected] = useState(false);
 	const [hasProfile, setHasProfile] = useState(true);
 
 	return (
 		hasProfile ? (
 			<div className={loginStyles.login}>
 				<Title level={3} className={loginStyles.heading}>Join</Title>
-				{accountData?.connector?.id && (<div className={loginStyles.content}>
+				{hasConnected && (<div className={loginStyles.content}>
 					<Title level={4}>Please sign the message.</Title>
 					<Text>We&rsquo;ll use this signature to verify that you&rsquo;re the
 						owner of this address.</Text>
 				</div>)}
 				<WalletSelector
+					setHasConnected={setHasConnected}
 					setHasProfile={setHasProfile}
 				/>
 			</div>
