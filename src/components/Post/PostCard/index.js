@@ -18,11 +18,11 @@ export default function PostCard({post, following, setPostOpened}) {
 	const litClient = useContext(LitContext);
 	const [decryptedContent, setDecryptedContent] = useState('');
 	const {coverImgURL, title, content, followers_only, encryptedContent} = parsePostContent(post);
-
-	const isHidden = followers_only && !following;
+	console.log(`###: post`, post);
+	const isHidden = (followers_only !=='false') && !following;
 
 	useEffect(() => {
-		if (!isHidden) {
+		if ((followers_only ==='true') && following) {
 			const authSig = JSON.parse(localStorage.getItem('signature'));
 			decryptContent(encryptedContent, litClient,authSig).then(res => {
 				setDecryptedContent(res);
@@ -31,7 +31,7 @@ export default function PostCard({post, following, setPostOpened}) {
 	})
 
 	function onPostClick(e) {
-		if (!followers_only || following) {
+		if ((followers_only === 'false') || following) {
 			setPostOpened({...post, metadata: {...post.metadata, content: decryptedContent}});
 		}
 	}

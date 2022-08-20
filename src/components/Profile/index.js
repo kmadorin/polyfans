@@ -68,7 +68,6 @@ export default function Profile({username, ...props}) {
 		skip: !username,
 		onCompleted(data) {
 			setProfile(data?.profile);
-			console.log(`###: data?.profile`, data?.profile);
 			setFollowing(data?.profile?.isFollowedByMe);
 			consoleLog(
 				'Query',

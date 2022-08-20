@@ -241,8 +241,8 @@ export default function Index() {
 		}
 
 		if (onlyFollowers) {
-			postData.description = 'This post is available for followers only'
-			postData.content = 'This post is available for followers only'
+			postData.description = 'This post is available for followers only. Follow me on https://polyfans.online/ to read the post'
+			postData.content = 'This post is available for followers only. Follow me on https://polyfans.online/ to read the post'
 
 			//encrypt post content
 			const authSig = JSON.parse(localStorage.getItem('signature'));

@@ -237,7 +237,7 @@ export default function NewComment({currentUser, post}) {
 			<div>
 				{commentContentError && <Text className={styles.error}>{commentContentError}</Text>}
 			</div>
-			{currentUser ? (isFollowing ? (<div>
+			{currentUser ? (isFollowing ? (<>
 				<TextArea
 					required
 					rows={1}
@@ -281,7 +281,7 @@ export default function NewComment({currentUser, post}) {
 										? 'Send'
 										: ''}
 					</Button>)}
-			</div>) : (<div className={styles.onlyFollowers}>Only followers can comment</div>)) : (<div> You must be logged in to comment</div>)}
+			</>) : (<div className={styles.onlyFollowers}>Only followers can comment</div>)) : (<div> You must be logged in to comment</div>)}
 			{/*{data?.hash ?? broadcastData?.broadcast?.txHash ? (*/}
 			{/*	<div className={styles.status}>*/}
 			{/*		<PubIndexStatus*/}
