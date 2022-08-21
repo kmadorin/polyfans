@@ -57,12 +57,15 @@ export default function Settings({user}) {
 
 	const [coverImage, setCoverImage] = useState(user?.coverPicture?.original?.url);
 
-	settingsForm.setFieldsValue({
-		'id': user?.id,
-		'handle': user?.handle,
-		'name': user?.name,
-		'bio': user?.bio
-	});
+	useEffect(()=> {
+		settingsForm.setFieldsValue({
+			'id': user?.id,
+			'handle': user?.handle,
+			'name': user?.name,
+			'bio': user?.bio
+		});
+	}, [user])
+
 
 	const {data: account} = useAccount();
 	const [isUploading, setIsUploading] = useState(false);
