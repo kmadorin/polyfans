@@ -1,0 +1,38 @@
+.list {
+	display: flex;
+	flex-direction: column-reverse;
+	overflow-x: hidden;
+}
+
+.list__wrapper {
+	overflow-y: auto;
+	width: 100%;
+	display: flex;
+	flex-direction: column-reverse;
+	padding: 20px;
+	height: 72vh;
+}
+
+.message {
+	$m: &;
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 16px;
+	
+	&__block {
+		background-color: #fff;
+		padding: 8px 16px;
+		max-width: 40%;
+		border-radius: 8px;
+	}
+	
+	
+	&--my {
+		justify-content: flex-end;
+		
+		#{$m}__block {
+			background-color: #b733d2;
+			color: #fff;
+		}
+	}
+}

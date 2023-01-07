@@ -159,7 +159,7 @@ function WalletSelector({ setHasProfile, setHasConnected }) {
 						!authLoading &&
 						!profilesLoading && <Image
 							priority
-							src={`${PUBLIC_URL}/images/lens.png`}
+							src={`${PUBLIC_URL}images/lens.png`}
 							height={20}
 							width={20}
 							alt="Lens logo"

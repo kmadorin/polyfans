@@ -1,0 +1,12 @@
+.enabler {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	border-bottom: 1px solid #DFE0E9;
+	
+	&__text {
+		text-align: center;
+		padding: 0 15px;
+	}
+}

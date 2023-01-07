@@ -1,11 +1,19 @@
 import { chain } from 'wagmi';
+import packageJson from '../package.json';
 
 // Environments
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 export const IS_MAINNET = process.env.NEXT_PUBLIC_IS_MAINNET === 'true'
 
-export const APP_NAME = 'Polyfans';
+// export const APP_NAME = 'Polyfans';
+// export const APP_VERSION = packageJson.version;
+export const APP_NAME = 'Lenster';
+export const APP_VERSION = '1.0.5-beta';
+
+// XMTP
+export const XMTP_ENV = IS_MAINNET ? 'production' : 'dev';
+export const XMTP_PREFIX = 'lens.dev/dm';
 
 // Messages
 export const ERROR_MESSAGE = 'Something went wrong!'
@@ -35,6 +43,9 @@ export const PUBLIC_URL = process.env.NODE_ENV==='production' ? process.env.NEXT
 //IPFS Gateway
 export const INFURA_IPFS_PROJECT_ID = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID;
 export const INFURA_IPFS_API_SECRET_KEY = process.env.NEXT_PUBLIC_INFURA_IPFS_API_SECRET_KEY;
+// export const IPFS_GATEWAY = 'https://polyfans.infura-ipfs.io/ipfs/';
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
+
 // Web3
 export const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_KEY
 export const ALCHEMY_RPC = IS_MAINNET
@@ -69,3 +80,6 @@ export const DEFAULT_COLLECT_TOKEN = IS_MAINNET
 	: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'
 
 export const MOCK_PROFILE_CREATION_PROXY = '0x420f0257D43145bb002E69B14FF2Eb9630Fc4736'
+
+// UI
+export const MESSAGE_PAGE_LIMIT = 15;

@@ -121,10 +121,6 @@ function SiteLayout({children}) {
 		Router.push('/');
 	}
 
-	if (!mounted) {
-		return (<span>loading</span>)
-	}
-
 	return (
 		<AppContext.Provider value={injectedGlobalContext}>
 			<Toaster position="bottom-right" toastOptions={toastOptions}/>
@@ -157,7 +153,7 @@ function SiteLayout({children}) {
 						</Col>
 					</Row>
 				</Header>
-				<Content className={layoutStyles.content}>
+				<Content>
 					{children}
 				</Content>
 				{/*<Footer>*/}

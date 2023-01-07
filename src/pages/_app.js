@@ -6,9 +6,6 @@ import {ApolloProvider} from '@apollo/client'
 import client from '../apollo';
 import SiteLayout from "../components/SiteLayout";
 import LitContext from "../components/utils/LitContext";
-// import FluenceContext from "../components/utils/FluenceContext";
-// import {Fluence} from '@fluencelabs/fluence';
-// import { testNet } from "@fluencelabs/fluence-network-environment";
 import {SequenceConnector} from "../components/utils/SequenceConnector";
 
 
@@ -72,22 +69,14 @@ const wagmiClient = createClient({
 const litClient = new LitJsSdk.LitNodeClient();
 litClient.connect();
 
-// Fluence.start({ connectTo: testNet[1].multiaddr }).then(res => {
-// 	console.log(`###: res`, res);
-// 	console.log(`###: Fluence.getStatus()`, Fluence.getStatus());
-// }).catch(e => console.log(`###: e`, e));
-
-
 function App({Component, pageProps}) {
 	return (
 		<WagmiConfig client={wagmiClient}>
 			<ApolloProvider client={client}>
 				<LitContext.Provider value={litClient}>
-					{/*<FluenceContext.Provider value={Fluence}>*/}
 					<SiteLayout litClient={litClient}>
 						<Component {...pageProps} />
 					</SiteLayout>
-					{/*</FluenceContext.Provider>*/}
 				</LitContext.Provider>
 			</ApolloProvider>
 		</WagmiConfig>

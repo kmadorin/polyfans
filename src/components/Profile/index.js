@@ -82,7 +82,7 @@ export default function Profile({username, ...props}) {
 	if (!loading && !data?.profile) return <Page404 />
 
 	return (
-		<div>
+		<div className={styles.profile}>
 			<Cover cover={profile?.coverPicture?.original?.url}/>
 			<Details profile={profile} following={following} setFollowing={setFollowing}/>
 			<Feed profile={profile} following={following} className={styles.feed}/>

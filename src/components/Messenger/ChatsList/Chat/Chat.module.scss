@@ -1,0 +1,36 @@
+.chat {
+	padding: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: stretch;
+	background: #fff;
+	border-radius: 15px;
+	
+	&:hover {
+		background-color: #c130be;
+		cursor: pointer;
+	}
+	
+	&__right {
+		padding-left: 12px;
+		flex-grow: 1;
+	}
+
+	&__content {
+		display: -webkit-box;
+	  -webkit-line-clamp: 1;
+	  -webkit-box-orient: vertical;  
+	  overflow: hidden;
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		font-size: 12px;
+	}
+
+	&__name {
+		font-weight: bold;
+	}
+
+}
