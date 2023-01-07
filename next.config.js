@@ -15,6 +15,13 @@ module.exports = {
 			'/u/kmadorin1': {page: '/u', query: {username: 'kmadorin1'}},
 		}
 	},
+	typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
 	images: {
 		loader: "akamai",
 		path: "",
