@@ -7,8 +7,8 @@ import styles from './MessagesList.module.scss';
 function MissingXmtpAuth(){
   return (
     <div>
-      <Text>This author hasn't enabled DMs yet</Text>
-      <Text>You can't send them a message until they enable DMs.</Text>
+      <Text>{`This author hasn't enabled DMs yet`}</Text>
+      <Text>{` You can't send them a message until they enable DMs.`}</Text>
      </div>
     )
 };
