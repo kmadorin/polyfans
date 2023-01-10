@@ -7,7 +7,6 @@ const { Text } = Typography;
 import clsx from 'clsx';
 import styles from './MessagesList.module.scss';
 import {IPFS_GATEWAY} from '../../../../constants';
-import { useMemo } from 'react';
 
 function MissingXmtpAuth(){
   return (
@@ -32,13 +31,12 @@ function LoadingMore() {
 
 function Message({ message, profile, currentUser }) {
   const address = currentUser?.ownedBy;
-
   let messageContent = null;
 
   if (message.contentType.typeId === ContentTypeComposite.typeId) {
     const url = message.content.parts[1].content;
+    const idParsed = parseCid(url);
     const messageText = message.content.parts[0].content;
-    const idParsed = useMemo(() => parseCid(url), [url]);
     if (url && idParsed) {
       messageContent = (
         <>
