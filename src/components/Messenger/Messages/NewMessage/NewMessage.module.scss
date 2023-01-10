@@ -10,8 +10,19 @@
 	}
 
 	&__input {
-		flex-grow: 1;
-		margin-right: 20px;
 		margin-bottom: 0;
+		flex-grow: 1;
+		margin-right: 10px;
 	}
+
+	&__center {
+		flex-grow: 1;
+		display: flex;
+		margin-right: 20px;
+		align-items: center;
+	}
+}
+
+.attachmentsWrapper {
+	margin-bottom: 30px;
 }

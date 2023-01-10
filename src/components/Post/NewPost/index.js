@@ -91,7 +91,7 @@ export default function Index() {
 
 
 	const {currentUser} = useContext(AppContext)
-	const {activeChain} = useNetwork()
+	const {chain: activeChain} = useNetwork();
 	const {data: account} = useAccount()
 	const {isLoading: signLoading, signTypedDataAsync} = useSignTypedData({
 		onError(error) {

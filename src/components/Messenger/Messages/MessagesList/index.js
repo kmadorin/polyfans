@@ -1,8 +1,13 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Player } from '@livepeer/react';
+import { parseCid } from 'livepeer/media';
 import {Typography} from 'antd';
+import { ContentTypeComposite } from '@xmtp/xmtp-js';
 const { Text } = Typography;
 import clsx from 'clsx';
 import styles from './MessagesList.module.scss';
+import {IPFS_GATEWAY} from '../../../../constants';
+import { useMemo } from 'react';
 
 function MissingXmtpAuth(){
   return (
@@ -28,10 +33,35 @@ function LoadingMore() {
 function Message({ message, profile, currentUser }) {
   const address = currentUser?.ownedBy;
 
+  let messageContent = null;
+
+  if (message.contentType.typeId === ContentTypeComposite.typeId) {
+    const url = message.content.parts[1].content;
+    const messageText = message.content.parts[0].content;
+    const idParsed = useMemo(() => parseCid(url), [url]);
+    if (url && idParsed) {
+      messageContent = (
+        <>
+          {messageText && <Text className={styles.message__text}>{messageText}</Text>}
+          <Player
+            title={idParsed.id}
+            src={url}
+            muted
+          />
+        </>
+      )
+    } else {
+      messageContent = message.content.parts[0].content;    
+    }
+
+  } else {
+    messageContent = message.content
+  }
+
   return (
     <div className={clsx(styles.message, (address === message.senderAddress) && styles['message--my'])}>
       <div className={styles.message__block}>
-        {message?.content}
+        {messageContent}
       </div>
     </div>
   )

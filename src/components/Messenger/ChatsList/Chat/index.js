@@ -1,4 +1,5 @@
 import styles from './Chat.module.scss';
+import { ContentTypeComposite } from '@xmtp/xmtp-js';
 import { Avatar, Typography } from 'antd';
 import getAvatar from '../../../../lib/getAvatar';
 import dayjs from 'dayjs';
@@ -16,6 +17,16 @@ function Chat({ profile, chat, conversationKey, isSelected }) {
     router.push(profileId ? `/messenger/${conversationKey}` : '/messenger');
   };
 
+  console.log(chat);
+
+  let content = '';
+
+  if (chat.contentType.typeId === ContentTypeComposite.typeId) {
+  	content = chat.content.parts[1].content;
+  } else {
+  	content = chat.content
+  }
+
 	return (
 		<div className={ styles.chat } onClick={onChatSelected(profile.id)}> 
 			<div className={styles.chat__left}>
@@ -30,7 +41,7 @@ function Chat({ profile, chat, conversationKey, isSelected }) {
             </time>
           )}
 				</div>
-				<Text className={styles.chat__content}>{chat.content}</Text>
+				<Text className={styles.chat__content}>{content}</Text>
 			</div>
 		</div>
 	)

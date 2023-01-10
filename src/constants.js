@@ -1,4 +1,4 @@
-import { chain } from 'wagmi';
+import { polygon, polygonMumbai } from '@wagmi/core/chains'
 import packageJson from '../package.json';
 
 // Environments
@@ -40,11 +40,14 @@ export const POLYGONSCAN_URL = IS_MAINNET
 export const RELAY_ON = false;
 export const PUBLIC_URL = process.env.NODE_ENV==='production' ? process.env.NEXT_PUBLIC_URL : process.env.NEXT_PUBLIC_URL_DEV
 
+//Livepeer
+export const LIVEPEER_KEY = process.env.NEXT_PUBLIC_LIVEPEER_API_SECRET_KEY;
+
 //IPFS Gateway
 export const INFURA_IPFS_PROJECT_ID = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID;
 export const INFURA_IPFS_API_SECRET_KEY = process.env.NEXT_PUBLIC_INFURA_IPFS_API_SECRET_KEY;
-// export const IPFS_GATEWAY = 'https://polyfans.infura-ipfs.io/ipfs/';
-export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
+export const IPFS_GATEWAY = 'https://polyfans.infura-ipfs.io/ipfs/';
+// export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
 
 // Web3
 export const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_KEY
@@ -52,12 +55,12 @@ export const ALCHEMY_RPC = IS_MAINNET
 	? `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`
 	: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_KEY}`
 export const POLYGON_MAINNET = {
-	...chain.polygon,
+	...polygon,
 	name: 'Polygon Mainnet',
 	rpcUrls: { default: 'https://polygon-rpc.com' }
 }
 export const POLYGON_MUMBAI = {
-	...chain.polygonMumbai,
+	...polygonMumbai,
 	name: 'Polygon Mumbai',
 	rpcUrls: { default: 'https://rpc-mumbai.maticvigil.com' }
 }

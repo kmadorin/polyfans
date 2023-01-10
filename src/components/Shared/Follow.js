@@ -57,7 +57,7 @@ const CREATE_FOLLOW_TYPED_DATA_MUTATION = gql`
 export default function Follow({profile, showText=false, setFollowing, followersCount, setFollowersCount}) {
 	const {currentUser} = useContext(AppContext);
 
-	const {activeChain} = useNetwork()
+	const {chain: activeChain} = useNetwork();
 	const {data: account} = useAccount()
 	const {isLoading: signLoading, signTypedDataAsync} = useSignTypedData({
 		onError(error) {

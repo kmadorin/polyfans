@@ -36,14 +36,13 @@ function SiteLayout({children}) {
 	const [mounted, setMounted] = useState(false);
 	const [refreshToken, setRefreshToken] = useState();
 	const [selectedProfile, setSelectedProfile] = useState(0)
-	const {data: accountData} = useAccount();
+	const {address: accountAddress} = useAccount();
 	const {disconnect} = useDisconnect();
-	const {activeConnector} = useConnect();
-	const accountAddress = accountData && accountData.address;
+	const { connector: activeConnector} = useConnect();
 	const router = useRouter();
 	const hasTransparentHeader = router.pathname === '/' || router.pathname === '/settings';
 	const {data, loading, error} = useQuery(CURRENT_USER_QUERY, {
-		variables: {ownedBy: accountData?.address},
+		variables: {ownedBy: accountAddress},
 		skip: !selectedProfile || !refreshToken,
 		onCompleted(data) {
 			consoleLog(

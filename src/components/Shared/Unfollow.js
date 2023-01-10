@@ -55,7 +55,7 @@ const CREATE_UNFOLLOW_TYPED_DATA_MUTATION = gql`
 export default function Unfollow({profile, showText=false, setFollowing, followersCount, setFollowersCount}) {
 	const {currentUser} = useContext(AppContext);
 
-	const {activeChain} = useNetwork();
+	const {chain: activeChain} = useNetwork();
 	const {data: account} = useAccount();
 	const [writeLoading, setWriteLoading] = useState(false);
 	const {isLoading: signLoading, signTypedDataAsync} = useSignTypedData({

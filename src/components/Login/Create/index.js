@@ -36,7 +36,7 @@ export default function Create() {
 	const [form] = Form.useForm();
 	const [avatar, setAvatar] = useState('');
 	const {data: account} = useAccount();
-	const {activeChain} = useNetwork();
+	const {chain: activeChain} = useNetwork();
 	const {activeConnector} = useConnect();
 	const {data: signer, isError, isLoading} = useSigner()
 

@@ -10,16 +10,20 @@ export default function Attachment({type, attachments, setAttachments}) {
 	const id = useId();
 
 	let icon = null;
+	let fileTypes = '';
 
 	switch (type) {
 		case 'image':
 			icon = <ImageFileIcon/>;
+			fileTypes = 'image/*'
 			break;
 		case 'video':
 			icon = <VideoFileIcon/>;
+			fileTypes = 'video/*'
 			break;
 		case 'audio':
 			icon = <AudioFileIcon/>;
+			fileTypes = 'audio/*'
 			break;
 	}
 
@@ -29,6 +33,7 @@ export default function Attachment({type, attachments, setAttachments}) {
 		setLoading(true);
 		try {
 			const attachment = await uploadAssetsToIPFS(e.target.files)
+			console.log('attachment:', attachment);
 			if (attachment) {
 				setAttachments(attachment)
 			}
@@ -45,7 +50,7 @@ export default function Attachment({type, attachments, setAttachments}) {
 				name={`post_${type}`}
 				id={id}
 				type="file"
-				accept="image/*"
+				accept={fileTypes}
 				style={{display: "none"}}
 				onChange={handleUpload}
 			/>

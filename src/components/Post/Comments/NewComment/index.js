@@ -79,7 +79,7 @@ export default function NewComment({currentUser, post}) {
 	const [commentContentError, setCommentContentError] = useState('');
 	const [isUploading, setIsUploading] = useState(false);
 	const [isIndexingStatusVisible, setIndexingStatusVisible] = useState(true);
-	const {activeChain} = useNetwork();
+	const {chain: activeChain} = useNetwork();
 
 	const {isLoading: signLoading, signTypedDataAsync} = useSignTypedData({
 		onError(error) {

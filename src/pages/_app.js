@@ -2,12 +2,12 @@ import "../styles/variables.less";
 import '../styles/globals.css';
 import '../styles/fonts.css';
 
+import { createReactClient, studioProvider, LivepeerConfig } from '@livepeer/react';
 import {ApolloProvider} from '@apollo/client'
 import client from '../apollo';
 import SiteLayout from "../components/SiteLayout";
 import LitContext from "../components/utils/LitContext";
 import {SequenceConnector} from "../components/utils/SequenceConnector";
-
 
 import {
 	ALCHEMY_KEY,
@@ -15,17 +15,20 @@ import {
 	APP_NAME,
 	CHAIN_ID,
 	IS_MAINNET,
+	LIVEPEER_KEY
 } from '../constants';
 
-import {chain, configureChains, createClient, defaultChains, WagmiConfig} from 'wagmi';
-import {CoinbaseWalletConnector} from 'wagmi/connectors/coinbaseWallet'
-import {InjectedConnector} from 'wagmi/connectors/injected'
-import {WalletConnectConnector} from 'wagmi/connectors/walletConnect'
-import {alchemyProvider} from 'wagmi/providers/alchemy'
+import {configureChains, createClient, defaultChains, WagmiConfig} from 'wagmi';
+import { polygon, polygonMumbai, mainnet } from '@wagmi/core/chains';
+
+import {CoinbaseWalletConnector} from '@wagmi/core/connectors/coinbaseWallet'
+import { InjectedConnector } from '@wagmi/core'
+import {WalletConnectConnector} from '@wagmi/core/connectors/walletConnect'
+import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import LitJsSdk from "lit-js-sdk";
 
 const {chains, provider} = configureChains(
-	[IS_MAINNET ? chain.polygon : chain.polygonMumbai, chain.mainnet],
+	[IS_MAINNET ? polygon : polygonMumbai, mainnet],
 	[alchemyProvider({alchemyId: ALCHEMY_KEY})]
 )
 
@@ -69,14 +72,20 @@ const wagmiClient = createClient({
 const litClient = new LitJsSdk.LitNodeClient();
 litClient.connect();
 
+const livepeerClient = createReactClient({
+  provider: studioProvider({ apiKey: LIVEPEER_KEY }),
+});
+
 function App({Component, pageProps}) {
 	return (
 		<WagmiConfig client={wagmiClient}>
 			<ApolloProvider client={client}>
 				<LitContext.Provider value={litClient}>
-					<SiteLayout litClient={litClient}>
-						<Component {...pageProps} />
-					</SiteLayout>
+					<LivepeerConfig client={livepeerClient}>
+						<SiteLayout>
+							<Component {...pageProps} />
+						</SiteLayout>
+					</LivepeerConfig>
 				</LitContext.Provider>
 			</ApolloProvider>
 		</WagmiConfig>

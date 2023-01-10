@@ -34,7 +34,7 @@ export const AUTHENTICATE_MUTATION = gql`
 `
 
 function WalletSelector({ setHasProfile, setHasConnected }) {
-	const {data: accountData, connector: activeConnector} = useAccount();
+	const {address: accountAddress, connector: activeConnector, isConnecting, isConnected} = useAccount();
 	const { setSelectedProfile, currentUser} = useContext(AppContext)
 	const { signMessage, signMessageAsync, isLoading: signLoading } = useSignMessage();
 	const [
@@ -62,10 +62,9 @@ function WalletSelector({ setHasProfile, setHasConnected }) {
 				)
 			}
 		});
-	const {connectors, error, connectAsync, isConnecting, pendingConnector} =
-		useConnect();
+	const {connectors, error, connectAsync, pendingConnector} = useConnect();
 
-	const {activeChain} = useNetwork();
+	const {chain: activeChain} = useNetwork();
 
 	const onConnect = async (connector) => {
 		try {
@@ -96,19 +95,19 @@ function WalletSelector({ setHasProfile, setHasConnected }) {
 
 	const handleSign = () => {
 		loadChallenge({
-			variables: { request: { address: accountData?.address } }
+			variables: { request: { address: accountAddress } }
 		}).then((res) => {
 			signMessageAsync({ message: res?.data?.challenge?.text }).then(
 				(signature) => {
 					localStorage.setItem('signature', JSON.stringify({
 						sig: signature,
-						address: accountData?.address,
+						address: accountAddress,
 						derivedVia: 'web3.eth.personal.sign',
 						signedMessage: res?.data?.challenge?.text
 					}))
 					authenticate({
 						variables: {
-							request: { address: accountData?.address, signature }
+							request: { address: accountAddress, signature }
 						}
 					}).then((res) => {
 						Cookies.set(
@@ -122,7 +121,7 @@ function WalletSelector({ setHasProfile, setHasConnected }) {
 							COOKIE_CONFIG
 						)
 						getProfiles({
-							variables: { ownedBy: accountData?.address }
+							variables: { ownedBy: accountAddress }
 						}).then((res) => {
 							localStorage.setItem('selectedProfile', '0')
 							if (res.data.profiles.items.length === 0) {
@@ -138,7 +137,7 @@ function WalletSelector({ setHasProfile, setHasConnected }) {
 		})
 	}
 
-	return accountData?.connector?.id ? (
+	return isConnected ? (
 		<div>
 			{activeChain?.id === CHAIN_ID ? (
 				<Button

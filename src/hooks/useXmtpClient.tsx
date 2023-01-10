@@ -1,4 +1,4 @@
-import { Client } from '@xmtp/xmtp-js';
+import { Client, CompositeCodec } from '@xmtp/xmtp-js';
 import { APP_NAME, APP_VERSION, XMTP_ENV } from '../constants';
 import { useCallback, useEffect, useState, useContext } from 'react';
 import { useSigner } from 'wagmi';
@@ -51,6 +51,7 @@ const useXmtpClient = (cacheOnly = false) => {
         }
 
         const xmtp = await Client.create(null, {
+          codecs: [new CompositeCodec()],
           env: XMTP_ENV,
           appVersion: APP_NAME + '/' + APP_VERSION,
           privateKeyOverride: keys

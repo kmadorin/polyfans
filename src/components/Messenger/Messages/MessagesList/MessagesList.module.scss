@@ -25,14 +25,22 @@
 		max-width: 40%;
 		border-radius: 8px;
 	}
+
+	&__text {
+		display: block;
+		margin-bottom: 10px;
+	}
 	
 	
 	&--my {
 		justify-content: flex-end;
 		
+		#{$m}__block, #{$m}__text {
+			color: #fff;
+		}
+
 		#{$m}__block {
 			background-color: #b733d2;
-			color: #fff;
 		}
 	}
 }
