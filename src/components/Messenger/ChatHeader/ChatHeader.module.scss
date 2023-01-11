@@ -4,5 +4,11 @@
 	justify-content: space-between;
 	padding: 20px;
 	background: #fff;
-	border-left: 1px solid #f5e7f9
+	border-left: 1px solid #f5e7f9;
+
+	&__profile {
+		&:hover {
+			cursor: pointer;	
+		}
+	}
 }

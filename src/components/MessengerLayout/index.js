@@ -1,5 +1,4 @@
-import {Layout, Row, Col, Button, Space,} from 'antd';
-import clsx from 'clsx';
+import {Layout, Row, Col, Button, Space} from 'antd';
 import {useRouter} from "next/router";
 import {gql, useQuery} from '@apollo/client';
 import Router from 'next/router';
@@ -7,17 +6,17 @@ import Cookies from 'js-cookie'
 import {useEffect, useState} from "react";
 import {Toaster} from 'react-hot-toast';
 import {useAccount, useConnect, useDisconnect} from 'wagmi';
+import {useMessengerStore} from '../../store/messenger.ts';
 import {MinimalProfileFields} from '../../graphql/MinimalProfileFields';
 
-const {Header, Content, Footer} = Layout;
+const {Header, Content, Footer, Sider} = Layout;
 import AppContext from '../utils/AppContext';
 import Address from '../Address';
 import Logo from '../Logo';
 import layoutStyles from './layout.module.scss';
 import consoleLog from '../../lib/consoleLog';
 import User from "./User";
-import NewPost from '../Post/NewPost';
-
+import ChatsList from '../Messenger/ChatsList';
 import Link from 'next/link';
 
 export const CURRENT_USER_QUERY = gql`
@@ -32,18 +31,30 @@ export const CURRENT_USER_QUERY = gql`
   ${MinimalProfileFields}
 `
 
-function SiteLayout({children}) {
+function ProfileInfo() {
+	const ensName =useMessengerStore((state) => state.ensName);
+	const ensAvatar =useMessengerStore((state) => state.ensAvatar);
+
+	return (
+		<div className={layoutStyles.profile}>
+			{ensName && ensAvatar && <img src={ensAvatar} className={layoutStyles.profile__avatar} alt={ensName + ' avatar'} />}
+			{ensName && <span className={layoutStyles.profile__name}>{ensName}</span>}
+		</div>
+	)
+}
+
+function MessengerLayout({leftSiderComponents, children, rightSiderComponents}) {
 	const [mounted, setMounted] = useState(false);
+	const [collapsed, setCollapsed] = useState(false);
 	const [refreshToken, setRefreshToken] = useState();
 	const [selectedProfile, setSelectedProfile] = useState(0)
-	const {data: accountData} = useAccount();
+	const {address: accountAddress} = useAccount();
 	const {disconnect} = useDisconnect();
-	const {activeConnector} = useConnect();
-	const accountAddress = accountData && accountData.address;
+	const { connector: activeConnector} = useConnect();
 	const router = useRouter();
-	const hasTransparentHeader = router.pathname === '/' || router.pathname === '/settings';
+	const isSidebarOpen = useMessengerStore((state) => state.isSidebarOpen);
 	const {data, loading, error} = useQuery(CURRENT_USER_QUERY, {
-		variables: {ownedBy: accountData?.address},
+		variables: {ownedBy: accountAddress},
 		skip: !selectedProfile || !refreshToken,
 		onCompleted(data) {
 			consoleLog(
@@ -121,25 +132,22 @@ function SiteLayout({children}) {
 		Router.push('/');
 	}
 
+	if (!mounted) {
+		return (<span>loading</span>)
+	}
+
 	return (
 		<AppContext.Provider value={injectedGlobalContext}>
 			<Toaster position="bottom-right" toastOptions={toastOptions}/>
 			<Layout style={{minHeight: '100vh'}} className={layoutStyles.layout}>
-				<Header className={clsx(layoutStyles.header, hasTransparentHeader && layoutStyles.headerTransparent)}>
+				<Header className={layoutStyles.header}>
 					<Row justify="stretch" align="middle" className={layoutStyles.row}>
 						<Col className={layoutStyles.logocol}>
 							<Logo/>
 						</Col>
 						<Col className={layoutStyles.rightcol}>
 							<Row justify="space-between" align="middle">
-								{
-									currentUser && (
-										<Space size={16}>
-											<User user={currentUser}/>
-											<NewPost />
-										</Space>
-									)
-								}
+								{currentUser && <User user={currentUser}/>}
 								<Col>
 								</Col>
 								<Col>{mounted && accountAddress ? (
@@ -153,16 +161,20 @@ function SiteLayout({children}) {
 						</Col>
 					</Row>
 				</Header>
-				<Content>
-					{children}
-				</Content>
-				{/*<Footer>*/}
-				{/*	<LitBtn/>*/}
-				{/*</Footer>*/}
-				{/*<Footer>Footer</Footer>*/}
+				<Layout>
+					<Sider theme={'light'} width={300}>
+						<ChatsList />
+					</Sider>
+					<Content className={layoutStyles.content}>
+						{children}
+					</Content>
+					<Sider theme={'light'} width={300} collapsedWidth={0} collapsible collapsed={isSidebarOpen} onCollapse={(value) => setCollapsed(value)}>
+						<ProfileInfo />
+					</Sider>
+				</Layout>
 			</Layout>
 		</AppContext.Provider>
 	)
 }
 
-export default SiteLayout
+export default MessengerLayout

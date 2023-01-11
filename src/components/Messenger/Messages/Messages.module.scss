@@ -1,7 +1,11 @@
-.sidebar {
-	background: #fff;
+.content {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: stretch;
+	width: 100%;
 }
 
-.content {
-	background: #e4d5eb;
+.header, .messages, .newMessage {
+	width: 100%;
 }

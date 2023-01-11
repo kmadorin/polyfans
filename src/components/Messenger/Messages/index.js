@@ -1,6 +1,7 @@
 import AppContext from "../../utils/AppContext";
-import { useContext, useState, useCallback } from 'react';
+import { useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import { Row, Col} from 'antd'; 
+import { useEnsName, useEnsAddress, useEnsAvatar } from 'wagmi';
 import Page404 from '../../../pages/404';
 import { useRouter } from 'next/router';
 import { parseConversationKey } from '../../../lib//conversationKey';
@@ -14,10 +15,18 @@ import MessagesList from './MessagesList';
 import styles from './Messages.module.scss';
 import ChatHeader from '../ChatHeader/';
 import NewMessage from './NewMessage';
+import MessengerLayout from '../../MessengerLayout'
 
 function Chat({ conversationKey }) {
 	const { currentUser } = useContext(AppContext);
 	const profile = useMessengerStore((state) => state.chatsProfiles.get(conversationKey));
+  const setEnsName = useMessengerStore((state) => state.setEnsName);
+  const setEnsAvatar = useMessengerStore((state) => state.setEnsAvatar);
+  const ensName = useMemo(() => 'Yoginth.eth', []);
+  // TODO: check why ensName is not resolved
+  // const ensName = useEnsName({ address: profile?.ownedBy, chainId: 1});
+  const {data: ensAvatar} = useEnsAvatar({ address: profile?.ownedBy, chainId: 1});
+
 	const { selectedConversation, missingXmtpAuth } = useGetConversation(conversationKey, profile);
 	const [endTime, setEndTime] = useState(new Map());
 	const { messages, hasMore } = useGetMessages(
@@ -25,6 +34,11 @@ function Chat({ conversationKey }) {
     selectedConversation,
     endTime.get(conversationKey)
   );
+
+  useEffect(() => {
+    setEnsName(ensName)
+    setEnsAvatar(ensAvatar)
+  }, [ensName, ensAvatar])
 
   useStreamMessages(conversationKey, selectedConversation);
   const { sendMessage } = useSendMessage(selectedConversation);
@@ -47,16 +61,13 @@ function Chat({ conversationKey }) {
   const showLoading = !missingXmtpAuth && (!profile || !currentUser || !selectedConversation);
 
 	return (
-		<Row wrap={false}>
-			<Col flex="300px" className={styles.sidebar}>
-				< ChatsList />
-			</Col>
-			<Col flex="auto" className={ styles.content }>
-				<ChatHeader profile={profile}/>
-				{ showLoading ? 'loading...' : <MessagesList profile={profile} currentUser={currentUser} fetchNextMessages={fetchNextMessages} messages={ messages } hasMore={ hasMore }/> }
-			  <NewMessage sendMessage={sendMessage} conversationKey={conversationKey} disabledInput={missingXmtpAuth ?? false}/>
-      </Col>
-		</Row>
+			<div className={ styles.content }>
+				<ChatHeader profile={profile} className={styles.header}/>
+        <div className={styles.messages}>
+				  { showLoading ? 'loading...' : <MessagesList profile={profile} currentUser={currentUser} fetchNextMessages={fetchNextMessages} messages={ messages } hasMore={ hasMore }/> }
+			  </div>
+        <NewMessage sendMessage={sendMessage} className={styles.newMessage} conversationKey={conversationKey} disabledInput={missingXmtpAuth ?? false}/>
+      </div>
 	)
 }
 
@@ -87,6 +98,14 @@ function MessagesPage() {
   }
 
   return <Chat conversationKey={joinedConversationKey} />;
+}
+
+MessagesPage.getLayout = function getLayout(page) {
+  return (
+    <MessengerLayout>
+      {page}
+    </MessengerLayout>
+  )
 }
 
 export default MessagesPage;

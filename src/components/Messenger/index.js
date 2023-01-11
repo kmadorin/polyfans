@@ -1,26 +1,32 @@
-import {Row, Col, Modal, Space, Empty} from 'antd';
-import { useEffect } from 'react';
-import { useMessengerStore } from '../../store/messenger';
-import useXmtpClient from '../../hooks/useXmtpClient';
-import ChatsList from './ChatsList';
-import MessengerLayout from '../MessengerLayout';
+import {Empty, Typography} from 'antd';
 import styles from './Messenger.module.scss';
+import { PUBLIC_URL } from '../../constants';
+import MessengerLayout from '../MessengerLayout';
+const {Text, Title} = Typography;
+
 
 function Messenger() {
 	return (
-		<>
-			<Row>
-				<Col flex="300px" className={styles.sidebar}>
-					<div>
-						<ChatsList />
-					</div>	
-				</Col>
-				<Col flex="auto">
-					<Empty description = {<span>No messages yet</span>}/>
-				</Col>
-			</Row>
-		</>
-	)
+    <div className={styles.empty}>
+		  <Empty 
+        image={`${PUBLIC_URL}/images/chat_not_selected.png`} 
+        description = {
+            <>
+              <Title level={4}>Select channel or chat</Title>
+              <Text>Choose an existing chat or create a new one to start messaging</Text>
+            </>
+          }
+        />
+    </div>
+  )
+}
+
+Messenger.getLayout = function getLayout(page) {
+  return (
+    <MessengerLayout>
+      {page}
+    </MessengerLayout>
+  )
 }
 
 export default Messenger;

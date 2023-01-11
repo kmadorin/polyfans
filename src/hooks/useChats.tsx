@@ -13,6 +13,7 @@ import { MinimalProfileFields } from '../graphql/MinimalProfileFields';
 import { useEffect, useState, useContext } from 'react';
 import { useMessengerStore } from '../store/messenger';
 import AppContext from '../components/utils/AppContext';
+import { useRouter } from 'next/router';
 
 const MAX_PROFILES_PER_REQUEST = 50;
 
@@ -34,7 +35,7 @@ const PROFILES_QUERY = gql`
 `
 
 const useChats = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const { currentUser } = useContext(AppContext);
   const conversations = useMessengerStore((state) => state.conversations);
   const setConversations = useMessengerStore((state) => state.setConversations);

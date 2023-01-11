@@ -36,7 +36,7 @@ function SiteLayout({children}) {
 	const [mounted, setMounted] = useState(false);
 	const [refreshToken, setRefreshToken] = useState();
 	const [selectedProfile, setSelectedProfile] = useState(0)
-	const {address: accountAddress} = useAccount();
+	const {address: accountAddress, isDisconnected} = useAccount();
 	const {disconnect} = useDisconnect();
 	const { connector: activeConnector} = useConnect();
 	const router = useRouter();

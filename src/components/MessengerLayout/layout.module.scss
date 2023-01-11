@@ -1,13 +1,9 @@
-.layout {
-    background-color: #faf8f9;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-}
+
 .header {
     height: 72px;
     background-color: #fffefe;
+    box-shadow: 0px 2px 4px rgba(21, 18, 26, 0.03);
+    padding: 0 24px;
 }
 
 .headerTransparent {
@@ -21,7 +17,7 @@
 
 .rightcol {
     flex-grow: 1;
-    padding: 0 30px;
+    margin-left: 30px;
 }
 
 .row {
@@ -35,4 +31,21 @@
 .content {
     display: flex;
     align-items: stretch;
+    background-color: #f9f8fa;
+}
+
+.profile {
+    width: 100%;
+    
+    &__avatar {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    &__name {
+        display: inline-block;
+        margin-top: 15px;
+        font-weight: bold;
+    }
 }

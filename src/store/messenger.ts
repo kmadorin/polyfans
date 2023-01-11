@@ -18,6 +18,12 @@ interface MessengerState {
   chatsProfiles: Map<string, Profile>;
   setChatsProfiles: (chatsProfiles: Map<string, Profile>) => void;
   reset: () => void;
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+  ensName: string;
+  setEnsName: (name: string) => void;
+  ensAvatar: string;
+  setEnsAvatar: (name: string) => void
 }
 
 export const useMessengerStore = create<MessengerState>((set) => ({
@@ -62,6 +68,13 @@ export const useMessengerStore = create<MessengerState>((set) => ({
   setChats: (chats) => set(() => ({ chats })),
   chatsProfiles: new Map(),
   setChatsProfiles: (chatsProfiles) => set(() => ({ chatsProfiles })),
+  isSidebarOpen: true,
+  toggleSidebar: () => set((state) => ({isSidebarOpen: !state.isSidebarOpen})),
+  ensName: '',
+  setEnsName: (ensName) => set(() => ({ ensName})),
+  ensAvatar: '',
+  setEnsAvatar: (ensAvatar) => set(() => ({ ensAvatar})),
+
   reset: () =>
     set((state) => {
       return {

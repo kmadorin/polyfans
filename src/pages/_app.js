@@ -11,6 +11,7 @@ import {SequenceConnector} from "../components/utils/SequenceConnector";
 
 import {
 	ALCHEMY_KEY,
+	ALCHEMY_MAINNET_KEY,
 	ALCHEMY_RPC,
 	APP_NAME,
 	CHAIN_ID,
@@ -29,9 +30,8 @@ import LitJsSdk from "lit-js-sdk";
 
 const {chains, provider} = configureChains(
 	[IS_MAINNET ? polygon : polygonMumbai, mainnet],
-	[alchemyProvider({alchemyId: ALCHEMY_KEY})]
+	[alchemyProvider({apiKey: ALCHEMY_KEY}), alchemyProvider({apiKey: ALCHEMY_MAINNET_KEY})]
 )
-
 
 const connectors = () => {
 	return [
@@ -77,14 +77,14 @@ const livepeerClient = createReactClient({
 });
 
 function App({Component, pageProps}) {
+	const getLayout = Component.getLayout || ((page) => page)
+
 	return (
 		<WagmiConfig client={wagmiClient}>
 			<ApolloProvider client={client}>
 				<LitContext.Provider value={litClient}>
 					<LivepeerConfig client={livepeerClient}>
-						<SiteLayout>
-							<Component {...pageProps} />
-						</SiteLayout>
+						{getLayout(<Component {...pageProps} />)}
 					</LivepeerConfig>
 				</LitContext.Provider>
 			</ApolloProvider>

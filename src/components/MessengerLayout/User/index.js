@@ -6,14 +6,9 @@ import userStyles from './user.module.scss';
 
 export default function User({user}) {
 	return (
-		<Space size={16}>
-			<Space size={10}>
-				<Avatar src={getAvatar(user)} size={32} />
-				<Text className={userStyles.name}>{user.handle}</Text>
-			</Space>
-			<Link href="/settings">
-				<SettingOutlined style={{fontSize: "16px"}}/>
-			</Link>
+		<Space size={10}>
+			<Avatar src={getAvatar(user)} size={32} />
+			<Text className={userStyles.name}>{user.handle}</Text>
 		</Space>
 	)
 }

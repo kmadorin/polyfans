@@ -17,12 +17,10 @@ function Chat({ profile, chat, conversationKey, isSelected }) {
     router.push(profileId ? `/messenger/${conversationKey}` : '/messenger');
   };
 
-  console.log(chat);
-
   let content = '';
 
   if (chat.contentType.typeId === ContentTypeComposite.typeId) {
-  	content = chat.content.parts[1].content;
+  	content = 'New video message';
   } else {
   	content = chat.content
   }
