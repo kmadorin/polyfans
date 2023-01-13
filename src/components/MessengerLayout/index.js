@@ -48,9 +48,9 @@ function MessengerLayout({leftSiderComponents, children, rightSiderComponents}) 
 	const [collapsed, setCollapsed] = useState(false);
 	const [refreshToken, setRefreshToken] = useState();
 	const [selectedProfile, setSelectedProfile] = useState(0)
-	const {address: accountAddress} = useAccount();
+	const {address: accountAddress, isDisconnected, connector: activeConnector} = useAccount();
+	console.log('isDisconnected: ', isDisconnected);
 	const {disconnect} = useDisconnect();
-	const { connector: activeConnector} = useConnect();
 	const router = useRouter();
 	const isSidebarOpen = useMessengerStore((state) => state.isSidebarOpen);
 	const {data, loading, error} = useQuery(CURRENT_USER_QUERY, {
@@ -77,18 +77,19 @@ function MessengerLayout({leftSiderComponents, children, rightSiderComponents}) 
 		setRefreshToken(Cookies.get('refreshToken'))
 		setSelectedProfile(localStorage.selectedProfile)
 
-		if (!activeConnector) {
-			disconnect()
-		}
+		// if (!activeConnector) {
+		// 	disconnect()
+		// }
 
-		activeConnector?.on('change', () => {
-			localStorage.removeItem('selectedProfile')
-			localStorage.removeItem('signature')
-			Cookies.remove('accessToken')
-			Cookies.remove('refreshToken')
-			disconnect()
-		})
-	}, [selectedProfile, activeConnector, disconnect])
+		// activeConnector?.on('change', () => {
+		// 	localStorage.removeItem('selectedProfile')
+		// 	localStorage.removeItem('signature')
+		// 	Cookies.remove('accessToken')
+		// 	Cookies.remove('refreshToken')
+		// 	disconnect()
+		// })
+	}, []);
+	// }, [selectedProfile, activeConnector, disconnect])
 
 	const currentUser = profiles && profiles[selectedProfile];
 

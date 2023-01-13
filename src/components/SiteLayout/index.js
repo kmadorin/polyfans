@@ -65,18 +65,19 @@ function SiteLayout({children}) {
 		setRefreshToken(Cookies.get('refreshToken'))
 		setSelectedProfile(localStorage.selectedProfile)
 
-		if (!activeConnector) {
-			disconnect()
-		}
+		// if (!activeConnector) {
+		// 	disconnect()
+		// }
 
-		activeConnector?.on('change', () => {
-			localStorage.removeItem('selectedProfile')
-			localStorage.removeItem('signature')
-			Cookies.remove('accessToken')
-			Cookies.remove('refreshToken')
-			disconnect()
-		})
-	}, [selectedProfile, activeConnector, disconnect])
+		// activeConnector?.on('change', () => {
+		// 	localStorage.removeItem('selectedProfile')
+		// 	localStorage.removeItem('signature')
+		// 	Cookies.remove('accessToken')
+		// 	Cookies.remove('refreshToken')
+		// 	disconnect()
+		// })
+	// }, [selectedProfile, activeConnector, disconnect])
+	}, [])
 
 	const currentUser = profiles && profiles[selectedProfile];
 

@@ -128,7 +128,8 @@ function WalletSelector({ setHasProfile, setHasConnected }) {
 								setHasProfile(false)
 							} else {
 								setSelectedProfile(0)
-								Router.push(`/u/${res.data.profiles.items[0].handle}`)
+								Router.push('/messenger');
+								// Router.push(`/u/${res.data.profiles.items[0].handle}`)
 							}
 						})
 					})
